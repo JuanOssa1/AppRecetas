@@ -1,0 +1,21 @@
+.main-carousel {
+  display: flex;
+  align-items: center;
+  height: 260px;
+}
+.carousel-image {
+  height: 260px;
+  width: 100vw;
+}
+
+@media (max-width: 600px) {
+  .main-carousel {
+    display: flex;
+    align-items: center;
+    height: 200px;
+  }
+  .carousel-image {
+    height: 200px;
+    width: 100%;
+  }
+}
