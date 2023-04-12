@@ -2,39 +2,3 @@
   height: 100vh;
   overflow: auto;
 }
-.modal-form {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-}
-.modal-form__left {
-  gap: 5px;
-  display: flex;
-  flex-direction: column;
-  width: 50%;
-  align-items: center;
-}
-.modal-form__right {
-  gap: 5px;
-  display: flex;
-  flex-direction: column;
-  width: 50%;
-  align-items: center;
-}
-$inputWidth: 70%;
-.input-recipe {
-  width: $inputWidth;
-}
-.select-category {
-  width: $inputWidth;
-}
-.select-time {
-  width: $inputWidth;
-}
-.input-image {
-  width: $inputWidth;
-}
-.input-steps {
-  width: $inputWidth;
-  height: 80px;
-}

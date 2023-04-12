@@ -9,13 +9,11 @@ function AppMainPage({ cardToRender }) {
       <section className={`${styles['main-page']}`}>
         <PhotoCarousel />
         <section className={`${styles['main-page__cards']}`}>
-          <Card imageUrl="https://www.instacart.com/company/wp-content/uploads/2021/12/christmas-food.jpg" />
-          <Card imageUrl="https://www.instacart.com/company/wp-content/uploads/2021/12/christmas-food.jpg" />
-          <Card imageUrl="https://www.instacart.com/company/wp-content/uploads/2021/12/christmas-food.jpg" />
           {console.log(cardToRender)}
-          {cardToRender.map((item, index) => {
-            <Card key={index} imageUrl={item.imageUrl}></Card>;
-          })}
+          {/*retorno implicito*/}
+          {cardToRender.map((item, index) => (
+            <Card key={index} imageUrl={item.imageUrl} />
+          ))}
         </section>
       </section>
     </>

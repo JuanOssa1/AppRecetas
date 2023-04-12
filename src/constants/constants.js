@@ -1,3 +1,4 @@
+import useFetch from '../hooks/use-fetch';
 export const categories = {
   All: 'all',
   Dessert: 'dessert',
@@ -12,3 +13,5 @@ export const cookingTime = {
   High: '1 to 2 Hours',
   UltraHigh: '>2 Hours',
 };
+export const CategoriesFire = {};
+export const cookingTimeFire = {};
