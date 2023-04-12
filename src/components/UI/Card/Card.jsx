@@ -1,8 +1,19 @@
 import React from 'react';
 import styles from './Card.module.scss';
 import Button from '../Button/Button';
+import CardAdditionalInfo from '../../CardAdditionalInfo/CardAdditionalInfo';
+import Modal from '../Modal/Modal';
+import { useState } from 'react';
 
-function Card({ category, imageUrl, name, steps, time, alt = 'Default alt' }) {
+function Card({
+  category,
+  imageUrl,
+  name,
+  steps,
+  time,
+  alt = 'Default alt',
+  onClick: displayModal,
+}) {
   return (
     <section className={`${styles['card-container']}`}>
       <img
@@ -23,6 +34,7 @@ function Card({ category, imageUrl, name, steps, time, alt = 'Default alt' }) {
         <Button
           content="Ver mas"
           className={`${styles['card-content__button']}`}
+          onClick={displayModal}
         />
       </section>
     </section>

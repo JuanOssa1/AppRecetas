@@ -12,7 +12,12 @@ function App() {
   const [modalAddRecipe, setModalSetRecipe] = useState(false);
   const [recipes, setRecipes] = useState([]);
   const getRecipes = (recipes) => {
-    setRecipes(Object.values(recipes));
+    /*
+    setRecipes((prevState) => {
+      return { ...prevState, recipes };
+    });
+    */
+    setRecipes(recipes);
   };
   const { isLoading, error, sendRequest } = useFetch(getRecipes);
 
@@ -31,6 +36,7 @@ function App() {
       method: 'POST',
       body: recipe,
     });
+    getRecipesHook();
   };
   useEffect(() => {
     getRecipesHook();
@@ -46,7 +52,7 @@ function App() {
         </Modal>
       )}
       <AppHeader addRecipeHandler={showModalHandler} />
-      <AppMainPage cardToRender={recipes} />
+      <AppMainPage cardToRender={Object.values(recipes)} />
       <AppFooter />
     </div>
   );
