@@ -1,4 +1,7 @@
+@import '../../../constants/consts.scss';
+
 .main-button {
+  @extend .button2;
   width: 100px;
   height: 50px;
 }

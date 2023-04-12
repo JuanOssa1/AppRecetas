@@ -1,4 +1,7 @@
+@import '../../constants/consts.scss';
+
 .app-footer {
+  background-color: $main-background-color;
   bottom: 0;
   width: 100%;
   height: 58px;
@@ -10,8 +13,9 @@
   padding-right: 50px;
   box-sizing: border-box;
   &__rights {
+    @include title1;
     font-size: 20px;
-    color: black;
+    //color: rebeccapurple;
   }
   &__social {
     display: flex;
@@ -19,6 +23,7 @@
     justify-content: space-between;
   }
 }
+
 .social-icons {
   width: 28px;
   height: 27px;
@@ -40,7 +45,7 @@
     box-sizing: border-box;
     &__rights {
       font-size: 20px;
-      color: black;
+      color: rebeccapurple;
     }
     &__social {
       display: flex;

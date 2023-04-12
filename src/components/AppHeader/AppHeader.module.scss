@@ -1,4 +1,7 @@
+@import '../../constants/consts.scss';
+
 .main-nav {
+  background-color: $main-background-color;
   box-sizing: border-box;
   position: fixed;
   display: flex;
@@ -7,7 +10,9 @@
   align-items: center;
   width: 100%;
   height: 80px;
+  z-index: 200;
   &__title {
+    @include title1;
     display: flex;
     max-width: 100px;
     margin: 0 0 0 40px;
@@ -16,6 +21,42 @@
   &__form {
     margin: 0 40px 0 0;
   }
+}
+.modal-form {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+.modal-form__left {
+  gap: 5px;
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  align-items: center;
+}
+.modal-form__right {
+  gap: 5px;
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  align-items: center;
+}
+$inputWidth: 70%;
+.input-recipe {
+  width: $inputWidth;
+}
+.select-category {
+  width: $inputWidth;
+}
+.select-time {
+  width: $inputWidth;
+}
+.input-image {
+  width: $inputWidth;
+}
+.input-steps {
+  width: $inputWidth;
+  height: 80px;
 }
 
 @media (max-width: 600px) {
@@ -30,7 +71,7 @@
     height: 100px;
     &__title {
       display: flex;
-      max-width: 200px;
+      max-width: 300px;
       margin: 10px;
       align-items: center;
     }

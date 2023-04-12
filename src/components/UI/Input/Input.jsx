@@ -1,10 +1,14 @@
 import React from 'react';
 import styles from './Input.module.scss';
 
-function Input() {
+function Input({ label, className }) {
   return (
     <>
-      <input type="text" className={`${styles['main-input']}`}></input>
+      <p className={`${['input-label']}`}>{label}</p>
+      <input
+        type="text"
+        className={`${styles['main-input']}  ${className}`}
+      ></input>
     </>
   );
 }

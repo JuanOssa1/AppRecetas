@@ -1,0 +1,67 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato&family=Quicksand:wght@400;500;700&family=Roboto:wght@500;700&family=Ubuntu:wght@300&display=swap');
+
+$main-color: black;
+$main-text-color: rebeccapurple;
+$main-background-color: #b1cc17;
+$footer-main-color: white;
+$secondary-font-family: 'Quicksand', sans-serif;
+
+@mixin title1 {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
+  font-size: 24px;
+  color: $main-text-color;
+}
+
+.heading2 {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  color: $main-color;
+}
+
+.heading3 {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  color: $main-color;
+}
+
+.heading4 {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  color: $main-color;
+}
+
+.button1 {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  color: $main-color;
+}
+
+.button2 {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  color: $main-color;
+  width: 206px;
+  height: 40px;
+  border: 1px solid $main-color;
+  border-radius: 5px;
+}
+
+.text1 {
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: $main-text-color;
+}
+
+.text2 {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  font-size: 12px;
+  color: $main-text-color;
+}

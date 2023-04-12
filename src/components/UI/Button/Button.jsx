@@ -1,10 +1,14 @@
 import React from 'react';
 import styles from './Button.module.scss';
 
-function Button({ content = 'Default', type = 'submit' }) {
+function Button({ content = 'Default', type = 'submit', className, onClick }) {
   return (
     <>
-      <button type={type} className={`${styles['main-button']}`}>
+      <button
+        onClick={onClick}
+        type={type}
+        className={`${styles['main-button']} ${className}`}
+      >
         {content}
       </button>
     </>
