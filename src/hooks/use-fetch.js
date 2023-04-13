@@ -19,12 +19,30 @@ const useFetch = (applyData) => {
       if (config.method === 'GET') {
         request = { method: config.method };
       }
+      if (config.method === 'DELETE') {
+      }
       const response = await fetch(config.url, request);
       if (!response.ok) {
         throw new Error('TRISTES NOTICIAS');
       }
       const data = await response.json();
-      applyData(data);
+      let dataArray = Object.values(data);
+      const theFilter = (filter) => {
+        if (filter.byCategory !== 'all') {
+          dataArray = dataArray.filter((recipe) => {
+            return recipe.category === filter.byCategory;
+          });
+        }
+        if (filter.byTime !== 'any') {
+          dataArray = dataArray.filter((recipe) => {
+            return recipe.time === filter.byTime;
+          });
+        }
+      };
+      if (config.filter) {
+        theFilter(config.filter);
+      }
+      applyData(dataArray);
     } catch (error) {
       setError(error.message);
       console.log(error);

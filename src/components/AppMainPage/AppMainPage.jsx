@@ -4,7 +4,6 @@ import PhotoCarousel from '../UI/PhotoCarousel/PhotoCarousel';
 import Card from '../UI/Card/Card';
 import CardAdditionalInfo from '../CardAdditionalInfo/CardAdditionalInfo';
 import { useState } from 'react';
-import { isAccordionItemSelected } from 'react-bootstrap/esm/AccordionContext';
 
 function AppMainPage({ cardToRender }) {
   const [infoModal, setInfoModal] = useState({
