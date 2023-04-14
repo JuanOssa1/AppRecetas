@@ -1,4 +1,3 @@
-import useFetch from '../hooks/use-fetch';
 export const categories = {
   All: 'all',
   Dessert: 'dessert',

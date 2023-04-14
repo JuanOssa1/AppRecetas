@@ -1,3 +1,4 @@
+@import '../../constants/consts.scss';
 .modal-form {
   display: flex;
   flex-direction: row;
@@ -9,6 +10,7 @@
   flex-direction: column;
   width: 50%;
   align-items: center;
+  justify-content: center;
 }
 .modal-form__right {
   gap: 5px;
@@ -18,19 +20,28 @@
   align-items: center;
 }
 $inputWidth: 70%;
-.input-recipe {
-  width: $inputWidth;
-}
-.select-category {
-  width: $inputWidth;
-}
-.select-time {
-  width: $inputWidth;
-}
+.input-recipe,
+.select-category,
+.select-time,
 .input-image {
   width: $inputWidth;
 }
+
 .input-steps {
   width: $inputWidth;
   height: 80px;
+}
+.preview-button {
+  width: $inputWidth;
+  height: 30px;
+}
+.image-preview {
+  object-fit: cover;
+  width: $inputWidth;
+  height: 130px;
+  border-radius: 5px;
+}
+
+.error {
+  background-color: $main-error-color;
 }

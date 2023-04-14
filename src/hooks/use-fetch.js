@@ -5,28 +5,34 @@ const useFetch = (applyData) => {
   const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const sendRequest = useCallback(async (config) => {
+    const { method } = config;
     let request = {};
     setLoading(true);
     setError(null);
     try {
-      if (config.method === 'POST') {
+      if (method === 'POST') {
         request = {
-          method: config.method,
+          method,
           body: JSON.stringify(config.body),
           headers: config.headers ? config.headers : {},
         };
       }
-      if (config.method === 'GET') {
-        request = { method: config.method };
-      }
-      if (config.method === 'DELETE') {
+      if (method === 'GET') {
+        request = { method };
       }
       const response = await fetch(config.url, request);
       if (!response.ok) {
         throw new Error('TRISTES NOTICIAS');
       }
       const data = await response.json();
-      let dataArray = Object.values(data);
+      //console.log(data);
+      let dataArray = [];
+      //let dataArray = Object.values(data);
+      for (const iterator in data) {
+        dataArray.push(data[iterator]);
+      }
+      //console.log(dataArray);
+      console.log(config);
       const theFilter = (filter) => {
         if (filter.byCategory !== 'all') {
           dataArray = dataArray.filter((recipe) => {
@@ -42,6 +48,7 @@ const useFetch = (applyData) => {
       if (config.filter) {
         theFilter(config.filter);
       }
+      //console.log(dataArray);
       applyData(dataArray);
     } catch (error) {
       setError(error.message);

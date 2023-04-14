@@ -7,31 +7,47 @@ import styles from './AddRecipeForm.module.scss';
 import useInput from '../../hooks/use-input';
 
 function AddRecipe({ showModalHandler, sendRecipesHook }) {
+  const checkMinimumCharacters = (value) => {
+    return value.trim().length > 5;
+  };
+  const checkValidSelector = (value) => {
+    return value !== '';
+  };
   const {
     value: recipeName,
     changeValueHandler: changeRecipeNameHandler,
     reset: resetRecipeName,
-  } = useInput();
+    inputBlurHandler: nameInputBlurHandler,
+    showError: showErrorName,
+  } = useInput(checkMinimumCharacters);
   const {
     value: recipeCategory,
     changeValueHandler: changeRecipeCategoryHandler,
     reset: resetRecipeCategory,
-  } = useInput();
+    inputBlurHandler: categoryInputBlurHandler,
+    showError: showErrorCategory,
+  } = useInput(checkValidSelector, 'all');
   const {
     value: recipeTime,
     changeValueHandler: changeRecipeTimeHandler,
     reset: resetRecipeTime,
-  } = useInput();
+    inputBlurHandler: timeInputBlurHandler,
+    showError: showErrorTime,
+  } = useInput(checkValidSelector, 'any');
   const {
     value: recipeImage,
     changeValueHandler: changeRecipeImageHandler,
     reset: resetRecipeImage,
-  } = useInput();
+    inputBlurHandler: imageInputBlurHandler,
+    showError: showErrorImage,
+  } = useInput(checkMinimumCharacters);
   const {
     value: recipeSteps,
     changeValueHandler: changeRecipeStepsHandler,
     reset: resetRecipeSteps,
-  } = useInput();
+    inputBlurHandler: stepsInputBlurHandler,
+    showError: showErrorSteps,
+  } = useInput(checkMinimumCharacters);
 
   const submitHandler = (event) => {
     event.preventDefault();
@@ -46,45 +62,60 @@ function AddRecipe({ showModalHandler, sendRecipesHook }) {
     sendRecipesHook(recipe);
     showModalHandler();
   };
+  const recipeNameErrorStyles = showErrorName ? 'error' : '';
+  const recipeCategoryErrorStyles = showErrorCategory ? 'error' : '';
+  const recipeTimeErrorStyles = showErrorTime ? 'error' : '';
+  const recipeLinkErrorStyles = showErrorImage ? 'error' : '';
+  const recipeStepsErrorStyles = showErrorSteps ? 'error' : '';
   return (
     <section className={`${styles['modal-form']}`}>
-      <div className={`${styles['modal-form__left']}`}>
+      <div className={`${styles['modal-form__left']} `}>
         <Input
-          className={`${styles['input-recipe']}`}
+          className={`${styles['input-recipe']} ${styles[recipeNameErrorStyles]}`}
           label="Nombre de la receta"
           value={recipeName}
           onChange={changeRecipeNameHandler}
+          onBlur={nameInputBlurHandler}
         />
 
         <Select
-          className={`${styles['select-category']}`}
-          defaultOption="Choose category"
+          className={`${styles['select-category']} ${styles[recipeCategoryErrorStyles]}`}
+          label="Choose category"
           id="categories"
           value={recipeCategory}
           options={Object.values(constants.categories)}
           onChange={changeRecipeCategoryHandler}
+          onBlur={categoryInputBlurHandler}
         />
         <Select
-          className={`${styles['select-time']}`}
-          defaultOption="Choose time"
+          className={`${styles['select-time']} ${styles[recipeTimeErrorStyles]}`}
+          label="Choose time"
           id="CookingTime"
           value={recipeTime}
           options={Object.values(constants.cookingTime)}
           onChange={changeRecipeTimeHandler}
+          onBlur={timeInputBlurHandler}
         />
         <Input
-          className={`${styles['input-image']}`}
+          className={`${styles['input-image']} ${styles[recipeLinkErrorStyles]}`}
           label="Link de imagen"
           value={recipeImage}
           onChange={changeRecipeImageHandler}
+          onBlur={imageInputBlurHandler}
         />
       </div>
       <div className={`${styles['modal-form__left']}`}>
         <Input
-          className={`${styles['input-steps']}`}
+          className={`${styles['input-steps']} ${styles[recipeStepsErrorStyles]}`}
           value={recipeSteps}
           label="Pasos de la receta"
           onChange={changeRecipeStepsHandler}
+          onBlur={stepsInputBlurHandler}
+        />
+        <img
+          className={`${styles['image-preview']}`}
+          src={recipeImage}
+          alt="Ingrese una imagen valida"
         />
         <Button onClick={submitHandler} content="Agregar" />
       </div>

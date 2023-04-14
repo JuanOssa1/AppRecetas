@@ -8,18 +8,23 @@ import useInput from '../../hooks/use-input';
 import * as constants from '../../constants/constants';
 import { useEffect } from 'react';
 
-function AppHeader({ addRecipeHandler }) {
+function AppHeader({ addRecipeHandler, getFilterValues }) {
+  const checkValidSelector = (value) => {
+    return value !== '';
+  };
   const {
     value: recipeCategory,
     changeValueHandler: changeRecipeCategoryHandler,
     reset: resetRecipeCategory,
-  } = useInput();
+  } = useInput(checkValidSelector, 'all');
   const {
     value: recipeTime,
     changeValueHandler: changeRecipeTimeHandler,
     reset: resetRecipeTime,
-  } = useInput();
-  //getFilterValues({ recipeCategory, recipeTime });
+  } = useInput(checkValidSelector, 'any');
+  useEffect(() => {
+    getFilterValues(recipeCategory, recipeTime);
+  }, [recipeCategory, recipeTime]);
 
   return (
     <>
@@ -28,14 +33,14 @@ function AppHeader({ addRecipeHandler }) {
         <Button onClick={addRecipeHandler} content="Agregar Receta" />
         <form className={`${styles['main-nav__form']}`}>
           <Select
-            defaultOption="Choose category"
+            label="Choose category"
             id="categories"
             value={recipeCategory}
             options={Object.values(constants.categories)}
             onChange={changeRecipeCategoryHandler}
           />
           <Select
-            defaultOption="Choose time"
+            label="Choose time"
             id="CookingTime"
             value={recipeTime}
             options={Object.values(constants.cookingTime)}
