@@ -1,10 +1,16 @@
 import React from 'react';
 import Modal from '../UI/Modal/Modal';
+import styles from './CardAdditionalInfo.module.scss';
 
-function CardAdditionalInfo({ info, onClose }) {
+function CardAdditionalInfo({ info, onClose, srcImage }) {
   return (
-    <Modal onClose={onClose}>
-      <p>{info}</p>
+    <Modal className={`${styles['info-modal']}`} onClose={onClose}>
+      <p className={`${styles['info-text']}`}>{info}</p>
+      <img
+        className={`${styles['modal-image']}`}
+        src={srcImage}
+        alt="No cargo la imagen"
+      />
     </Modal>
   );
 }

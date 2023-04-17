@@ -9,6 +9,7 @@ function AppMainPage({ cardToRender }) {
   const [infoModal, setInfoModal] = useState({
     toggleButton: false,
     valueToShow: '',
+    imageSrcToShow: '',
   });
   const showModalHandler = () => {
     setInfoModal((prevState) => {
@@ -20,9 +21,15 @@ function AppMainPage({ cardToRender }) {
       return { ...prevState, valueToShow: steps };
     });
   };
-  const displayModal = (steps) => {
+  const imageModalHandler = (imageSrc) => {
+    setInfoModal((prevState) => {
+      return { ...prevState, imageSrcToShow: imageSrc };
+    });
+  };
+  const displayModal = (steps, imageSrcToShow) => {
     showModalHandler();
     infoModalHandler(steps);
+    imageModalHandler(imageSrcToShow);
   };
   return (
     <>
@@ -30,6 +37,7 @@ function AppMainPage({ cardToRender }) {
         <CardAdditionalInfo
           onClose={showModalHandler}
           info={infoModal.valueToShow}
+          srcImage={infoModal.imageSrcToShow}
         />
       )}
       <section className={`${styles['main-page']}`}>
@@ -43,7 +51,7 @@ function AppMainPage({ cardToRender }) {
               steps={item.steps}
               time={item.time}
               imageUrl={item.imageUrl}
-              onClick={() => displayModal(item.steps)}
+              onClick={() => displayModal(item.steps, item.imageUrl)}
             />
           ))}
         </section>
