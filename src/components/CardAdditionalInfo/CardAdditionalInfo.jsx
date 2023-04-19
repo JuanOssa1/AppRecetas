@@ -3,12 +3,12 @@ import Modal from '../UI/Modal/Modal';
 import Button from '../UI/Button/Button';
 import styles from './CardAdditionalInfo.module.scss';
 
-function CardAdditionalInfo({ info, onClose, srcImage }) {
+function CardAdditionalInfo({ recipe, onClose }) {
   return (
     <Modal className={`${styles['info-modal']}`} onClose={onClose}>
       <section className={`${styles['modal-content']}`}>
-        <h1></h1>
-        <p className={`${styles['modal-content__text']}`}>{info}</p>
+        <h1 className={`${styles['modal-content__title']}`}>{recipe.name}</h1>
+        <p className={`${styles['modal-content__text']}`}>{recipe.steps}</p>
         <Button
           onClick={onClose}
           content="Cerrar"
@@ -18,7 +18,7 @@ function CardAdditionalInfo({ info, onClose, srcImage }) {
 
       <img
         className={`${styles['modal-image']}`}
-        src={srcImage}
+        src={recipe.imageUrl}
         alt="No cargo la imagen"
       />
     </Modal>

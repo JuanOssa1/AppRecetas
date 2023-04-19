@@ -5,13 +5,12 @@
   padding-top: 80px;
   width: 100%;
   min-height: calc(100vh - 58px);
+  //align-items: center;
   //overflow: auto;
   &__cards {
-    display: flex;
-    height: 100%;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    justify-items: center;
   }
 }
 

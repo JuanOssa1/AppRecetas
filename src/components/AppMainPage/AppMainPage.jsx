@@ -9,35 +9,25 @@ function AppMainPage({ cardToRender }) {
   const [infoModal, setInfoModal] = useState({
     toggleButton: false,
     valueToShow: '',
-    imageSrcToShow: '',
   });
   const showModalHandler = () => {
     setInfoModal((prevState) => {
       return { ...prevState, toggleButton: !prevState.toggleButton };
     });
   };
-  const infoModalHandler = (steps) => {
-    setInfoModal((prevState) => {
-      return { ...prevState, valueToShow: steps };
-    });
-  };
-  const imageModalHandler = (imageSrc) => {
-    setInfoModal((prevState) => {
-      return { ...prevState, imageSrcToShow: imageSrc };
-    });
-  };
-  const displayModal = (steps, imageSrcToShow) => {
+  const infoModalHandler = (item) => {
     showModalHandler();
-    infoModalHandler(steps);
-    imageModalHandler(imageSrcToShow);
+    setInfoModal((prevState) => {
+      return { ...prevState, valueToShow: item };
+    });
   };
+
   return (
     <>
       {infoModal.toggleButton && (
         <CardAdditionalInfo
           onClose={showModalHandler}
-          info={infoModal.valueToShow}
-          srcImage={infoModal.imageSrcToShow}
+          recipe={infoModal.valueToShow}
         />
       )}
       <section className={`${styles['main-page']}`}>
@@ -51,7 +41,7 @@ function AppMainPage({ cardToRender }) {
               steps={item.steps}
               time={item.time}
               imageUrl={item.imageUrl}
-              onClick={() => displayModal(item.steps, item.imageUrl)}
+              onClick={() => infoModalHandler(item)}
             />
           ))}
         </section>

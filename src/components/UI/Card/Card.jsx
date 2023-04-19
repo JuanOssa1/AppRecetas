@@ -1,9 +1,6 @@
 import React from 'react';
 import styles from './Card.module.scss';
 import Button from '../Button/Button';
-import CardAdditionalInfo from '../../CardAdditionalInfo/CardAdditionalInfo';
-import Modal from '../Modal/Modal';
-import { useState } from 'react';
 
 function Card({
   category,
@@ -14,12 +11,17 @@ function Card({
   alt = 'Default alt',
   onClick: displayModal,
 }) {
+  const handleImageError = (e) => {
+    e.target.src =
+      'https://forum.cs-cart.com/uploads/default/original/1X/2f0984456f8dd47c5beb0a68b72c3d6cf62ef2aa.jpeg';
+  };
   return (
     <section className={`${styles['card-container']}`}>
       <img
         className={`${styles['card-container__image']}`}
         src={imageUrl}
         alt={alt}
+        onError={(e) => handleImageError(e)}
       />
       <section className={`${styles['card-content']}`}>
         <h1 className={`${styles['card-content__name']}`}>Nombre: {name}</h1>

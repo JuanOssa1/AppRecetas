@@ -13,8 +13,8 @@ function PhotoCarousel() {
           alt="First slide"
         />
         <Carousel.Caption>
-          <h3>First slide label</h3>
-          <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+          <h3>Las recetas de Juan</h3>
+          <p>Recetas para toda la familia</p>
         </Carousel.Caption>
       </Carousel.Item>
       <Carousel.Item>
@@ -25,8 +25,8 @@ function PhotoCarousel() {
         />
 
         <Carousel.Caption>
-          <h3>Second slide label</h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+          <h3>El gusto de Juan</h3>
+          <p>Que buen gusto!</p>
         </Carousel.Caption>
       </Carousel.Item>
       <Carousel.Item>
@@ -37,10 +37,8 @@ function PhotoCarousel() {
         />
 
         <Carousel.Caption>
-          <h3>Third slide label</h3>
-          <p>
-            Praesent commodo cursus magna, vel scelerisque nisl consectetur.
-          </p>
+          <h3>La cocina de Juan</h3>
+          <p>Nunca olvides jugar con la comida.</p>
         </Carousel.Caption>
       </Carousel.Item>
     </Carousel>

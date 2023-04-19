@@ -5,7 +5,6 @@ import Modal from './components/UI/Modal/Modal';
 import AddRecipeForm from './components/AddRecipeForm/AddRecipeForm';
 import LoadingScreen from './components/UI/LoadingScreen/LoadingScreen';
 import useFetch from './hooks/use-fetch';
-import useInput from './hooks/use-input';
 import { useEffect } from 'react';
 import styles from './App.module.scss';
 import { useState } from 'react';

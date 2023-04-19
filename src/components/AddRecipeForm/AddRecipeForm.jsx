@@ -10,11 +10,15 @@ function AddRecipe({ showModalHandler, sendRecipesHook }) {
   const checkMinimumCharacters = (value) => {
     return value.trim().length > 5;
   };
-  const checkValidSelector = (value) => {
-    return value !== '';
+  const checkValidCategorySelector = (value) => {
+    return value !== 'all';
+  };
+  const checkValidTimeSelector = (value) => {
+    return value !== 'any';
   };
   const {
     value: recipeName,
+    isValid: isValidName,
     changeValueHandler: changeRecipeNameHandler,
     reset: resetRecipeName,
     inputBlurHandler: nameInputBlurHandler,
@@ -22,20 +26,23 @@ function AddRecipe({ showModalHandler, sendRecipesHook }) {
   } = useInput(checkMinimumCharacters);
   const {
     value: recipeCategory,
+    isValid: isValidCategory,
     changeValueHandler: changeRecipeCategoryHandler,
     reset: resetRecipeCategory,
     inputBlurHandler: categoryInputBlurHandler,
     showError: showErrorCategory,
-  } = useInput(checkValidSelector, 'all');
+  } = useInput(checkValidCategorySelector, 'all');
   const {
     value: recipeTime,
+    isValid: isValidTime,
     changeValueHandler: changeRecipeTimeHandler,
     reset: resetRecipeTime,
     inputBlurHandler: timeInputBlurHandler,
     showError: showErrorTime,
-  } = useInput(checkValidSelector, 'any');
+  } = useInput(checkValidTimeSelector, 'any');
   const {
     value: recipeImage,
+    isValid: isValidImage,
     changeValueHandler: changeRecipeImageHandler,
     reset: resetRecipeImage,
     inputBlurHandler: imageInputBlurHandler,
@@ -43,6 +50,7 @@ function AddRecipe({ showModalHandler, sendRecipesHook }) {
   } = useInput(checkMinimumCharacters);
   const {
     value: recipeSteps,
+    isValid: isValidSteps,
     changeValueHandler: changeRecipeStepsHandler,
     reset: resetRecipeSteps,
     inputBlurHandler: stepsInputBlurHandler,
@@ -67,6 +75,13 @@ function AddRecipe({ showModalHandler, sendRecipesHook }) {
   const recipeTimeErrorStyles = showErrorTime ? 'error' : '';
   const recipeLinkErrorStyles = showErrorImage ? 'error' : '';
   const recipeStepsErrorStyles = showErrorSteps ? 'error' : '';
+  const disableButton =
+    !isValidName ||
+    !isValidCategory ||
+    !isValidTime ||
+    !isValidImage ||
+    !isValidSteps;
+
   return (
     <section className={`${styles['modal-form']}`}>
       <div className={`${styles['modal-form__left']} `}>
@@ -117,7 +132,11 @@ function AddRecipe({ showModalHandler, sendRecipesHook }) {
           src={recipeImage}
           alt="Ingrese una imagen valida"
         />
-        <Button onClick={submitHandler} content="Agregar" />
+        {disableButton ? (
+          <Button disabled={true} content="Agregar" />
+        ) : (
+          <Button onClick={submitHandler} content="Agregar" />
+        )}
       </div>
     </section>
   );

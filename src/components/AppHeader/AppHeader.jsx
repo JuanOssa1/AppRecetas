@@ -2,8 +2,6 @@ import React from 'react';
 import styles from './AppHeader.module.scss';
 import Select from '../UI/Select/Select';
 import Button from '../UI/Button/Button';
-
-import { useState } from 'react';
 import useInput from '../../hooks/use-input';
 import * as constants from '../../constants/constants';
 import { useEffect } from 'react';
