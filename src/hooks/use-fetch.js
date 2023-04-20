@@ -29,10 +29,10 @@ const useFetch = (applyData) => {
       let dataArray = [];
       //let dataArray = Object.values(data);
       for (const iterator in data) {
-        dataArray.push(data[iterator]);
+        const recipe = { ...data[iterator], id: iterator };
+        dataArray.push(recipe);
       }
       //console.log(dataArray);
-      console.log(config);
       const theFilter = (filter) => {
         if (filter.byCategory !== 'all') {
           dataArray = dataArray.filter((recipe) => {
@@ -48,7 +48,6 @@ const useFetch = (applyData) => {
       if (config.filter) {
         theFilter(config.filter);
       }
-      //console.log(dataArray);
       applyData(dataArray);
     } catch (error) {
       setError(error.message);
