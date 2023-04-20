@@ -4,6 +4,7 @@ import AppFooter from './components/AppFooter/AppFooter';
 import Modal from './components/UI/Modal/Modal';
 import AddRecipeForm from './components/AddRecipeForm/AddRecipeForm';
 import LoadingScreen from './components/UI/LoadingScreen/LoadingScreen';
+import AppLogin from './components/AppLogin/AppLogin';
 import useFetch from './hooks/use-fetch';
 import { useEffect } from 'react';
 import styles from './App.module.scss';
@@ -19,7 +20,6 @@ function App() {
   const [recipes, setRecipes] = useState([]);
 
   const getRecipes = useCallback((recipes) => {
-    //console.log(recipes);
     setRecipes(recipes);
   }, []);
 
@@ -72,6 +72,7 @@ function App() {
         addRecipeHandler={showModalHandler}
         getFilterValues={getRecipesWithHook}
       />
+
       <AppMainPage cardToRender={recipes} />
       <AppFooter />
     </div>
