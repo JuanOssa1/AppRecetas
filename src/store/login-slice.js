@@ -2,11 +2,18 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const loginSlice = createSlice({
   name: 'login',
-  initialState: { role: 'ADMIN', isLogged: false },
+  initialState: { user: null, isLogged: false, isAdmin: false },
   reducers: {
-    setLogStatus(state, action) {
-      state.role = action.payload.role;
-      state.isLogged = true;
+    setUser(state, action) {
+      if (action.payload) {
+        console.log(action.payload);
+        state.user = action.payload;
+        state.isLogged = true;
+        console.log(action.payload.admin);
+        if (action.payload.admin) {
+          state.isAdmin = true;
+        }
+      }
     },
   },
 });

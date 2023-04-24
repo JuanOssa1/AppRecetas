@@ -1,6 +1,5 @@
 import { notificationActions } from './notifications-slice';
 import { favoritesActions } from './favorites-slice';
-import useFetchGeneric from '../hooks/use-fetch-generic';
 
 const URL_RECIPES =
   'https://lasrecetasdejuan-d17ba-default-rtdb.firebaseio.com/favoriteRecipes.json';
@@ -16,8 +15,14 @@ export const fetchFavoritesRecipes = () => {
     };
     try {
       const favoriteRecipes = await fetchData();
+      const favoriteRecipesArray = [];
+      for (const iterator in favoriteRecipes) {
+        const recipe = { ...favoriteRecipes[iterator], id: iterator };
+        favoriteRecipesArray.push(recipe);
+      }
+
       dispatch(
-        favoritesActions.loadFavoriteRecipes({ recipes: favoriteRecipes })
+        favoritesActions.loadFavoriteRecipes({ recipes: favoriteRecipesArray })
       );
     } catch (error) {}
   };

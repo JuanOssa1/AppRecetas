@@ -6,7 +6,13 @@ import useInput from '../../hooks/use-input';
 import * as constants from '../../constants/constants';
 import { useEffect } from 'react';
 
-function AppHeader({ addRecipeHandler, getFilterValues }) {
+function AppHeader({
+  showFavoriteRecipesHandler,
+  addRecipeHandler,
+  getFilterValues,
+  isLogged,
+  isAdmin,
+}) {
   const checkValidSelector = (value) => {
     return value !== '';
   };
@@ -28,23 +34,34 @@ function AppHeader({ addRecipeHandler, getFilterValues }) {
     <>
       <div className={`${styles['main-nav']}`}>
         <h1 className={`${styles['main-nav__title']}`}>Las recetas de Juan</h1>
-        <Button onClick={addRecipeHandler} content="Agregar Receta" />
-        <form className={`${styles['main-nav__form']}`}>
-          <Select
-            label="Choose category"
-            id="categories"
-            value={recipeCategory}
-            options={Object.values(constants.categories)}
-            onChange={changeRecipeCategoryHandler}
+
+        {isAdmin && (
+          <Button onClick={addRecipeHandler} content="Agregar Receta" />
+        )}
+        {!isAdmin && (
+          <Button
+            onClick={showFavoriteRecipesHandler}
+            content="Recetas Favoritas"
           />
-          <Select
-            label="Choose time"
-            id="CookingTime"
-            value={recipeTime}
-            options={Object.values(constants.cookingTime)}
-            onChange={changeRecipeTimeHandler}
-          />
-        </form>
+        )}
+        {isLogged && (
+          <form className={`${styles['main-nav__form']}`}>
+            <Select
+              label="Choose category"
+              id="categories"
+              value={recipeCategory}
+              options={Object.values(constants.categories)}
+              onChange={changeRecipeCategoryHandler}
+            />
+            <Select
+              label="Choose time"
+              id="CookingTime"
+              value={recipeTime}
+              options={Object.values(constants.cookingTime)}
+              onChange={changeRecipeTimeHandler}
+            />
+          </form>
+        )}
       </div>
     </>
   );

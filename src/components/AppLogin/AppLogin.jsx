@@ -3,6 +3,8 @@ import Input from '../UI/Input/Input';
 import Button from '../UI/Button/Button';
 import styles from './AppLogin.module.scss';
 import useInput from '../../hooks/use-input';
+import { logUser } from '../../store/login-actions';
+import { useSelector, useDispatch } from 'react-redux';
 
 export default function AppLogin() {
   const specialCharacters = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
@@ -12,8 +14,8 @@ export default function AppLogin() {
   };
 
   const {
-    value: userName,
-    isValid: isValidUserName,
+    value: userEmail,
+    isValid: isValidUserEmail,
     changeValueHandler: changeUserNameHandler,
     reset: resetUserName,
     inputBlurHandler: userNameInputBlurHandler,
@@ -28,12 +30,19 @@ export default function AppLogin() {
     showError: showErrorName,
   } = useInput(checkMinimumCharacters);
 
+  const dispatch = useDispatch();
+  const handleClick = (event) => {
+    event.preventDefault();
+    console.log({ userEmail, password });
+    dispatch(logUser({ userEmail, password }));
+  };
+
   return (
     <form className={`${styles['main-content']}`}>
       <h1>Iniciar Sesion</h1>
       <Input
         label="Correo electrónico: "
-        value={userName}
+        value={userEmail}
         onChange={changeUserNameHandler}
         onBlur={userNameInputBlurHandler}
       />
@@ -44,7 +53,7 @@ export default function AppLogin() {
         onChange={changePasswordHandler}
         onBlur={passwordInputBlurHandler}
       />
-      <Button content="Ingresar" />
+      <Button onClick={handleClick} content="Ingresar" />
       <p className={`${styles['main-content__register']}`}>
         ¿Aún no tenes cuenta? <a>Registrate</a>
       </p>

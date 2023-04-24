@@ -4,8 +4,8 @@ import AppFooter from './components/AppFooter/AppFooter';
 import Modal from './components/UI/Modal/Modal';
 import AddRecipeForm from './components/AddRecipeForm/AddRecipeForm';
 import LoadingScreen from './components/UI/LoadingScreen/LoadingScreen';
-import AppLogin from './components/AppLogin/AppLogin';
 import useFetch from './hooks/use-fetch';
+import AppLogin from './components/AppLogin/AppLogin';
 import { useEffect } from 'react';
 import styles from './App.module.scss';
 import { useState } from 'react';
@@ -18,6 +18,10 @@ function App() {
     'https://lasrecetasdejuan-d17ba-default-rtdb.firebaseio.com/recipes.json';
   const [modalAddRecipe, setModalSetRecipe] = useState(false);
   const [recipes, setRecipes] = useState([]);
+  const [favorites, setFavorites] = useState({
+    toggleButton: false,
+    valueToShow: '',
+  });
 
   const getRecipes = useCallback((recipes) => {
     setRecipes(recipes);
@@ -51,8 +55,22 @@ function App() {
     getRecipesWithHook();
   }, []);
 
+  const showFavoritesHandler = () => {
+    setFavorites((prevState) => {
+      return { ...prevState, toggleButton: !prevState.toggleButton };
+    });
+  };
+  const infoFavoritesHandler = (item) => {
+    showModalHandler();
+    setFavorites((prevState) => {
+      return { ...prevState, valueToShow: item };
+    });
+  };
+
   const dispatch = useDispatch();
+  const logStatus = useSelector((state) => state.login);
   const favoriteRecipes = useSelector((state) => state.favorites);
+  console.log(favoriteRecipes.recipes);
   useEffect(() => {
     dispatch(fetchFavoritesRecipes());
   }, [dispatch]);
@@ -69,11 +87,22 @@ function App() {
         </Modal>
       )}
       <AppHeader
+        showFavoriteRecipesHandler={showFavoritesHandler}
         addRecipeHandler={showModalHandler}
         getFilterValues={getRecipesWithHook}
+        isLogged={logStatus.isLogged}
+        isAdmin={logStatus.isAdmin}
       />
 
-      <AppMainPage cardToRender={recipes} />
+      {!logStatus.isLogged && <AppLogin />}
+      {logStatus.isLogged && (
+        <AppMainPage
+          cardToRender={recipes}
+          favoriteCards={favoriteRecipes.recipes}
+          favoriteIsPressed={favorites.toggleButton}
+        />
+      )}
+
       <AppFooter />
     </div>
   );
