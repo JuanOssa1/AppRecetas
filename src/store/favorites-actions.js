@@ -29,12 +29,15 @@ export const fetchFavoritesRecipes = (userId) => {
     } catch (error) {}
   };
 };
-export const addFavoriteRecipe = (recipe) => {
+export const addFavoriteRecipe = (recipeId, userId) => {
   return async (dispatch) => {
-    const fetchFavoritesRecipes = await fetch(URL_RECIPES, {
-      method: 'POST',
-      body: JSON.stringify(recipe),
-    });
+    const fetchFavoritesRecipes = await fetch(
+      URL_FAVORITE_RECIPES + userId + '/favoriteRecipes.json',
+      {
+        method: 'POST',
+        body: JSON.stringify(recipeId),
+      }
+    );
     if (!fetchFavoritesRecipes.ok) {
       throw new Error('error');
     }

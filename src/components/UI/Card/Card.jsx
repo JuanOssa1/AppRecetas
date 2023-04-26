@@ -9,7 +9,9 @@ function Card({
   steps,
   time,
   alt = 'Default alt',
-  onClick: displayModal,
+  onClickModal,
+  onClickAddFavorite,
+  onClickDeleteFavorite,
 }) {
   const handleImageError = (e) => {
     e.target.src =
@@ -33,11 +35,24 @@ function Card({
           Tiempo preparacion:{time}
         </h1>
         <p className={`${styles['card-content__steps']}`}>Pasos: {steps}</p>
-        <Button
-          content="Ver mas"
-          className={`${styles['card-content__button']}`}
-          onClick={displayModal}
-        />
+        <section>
+          {' '}
+          <Button
+            content="Ver mas"
+            className={`${styles['card-content__button']}`}
+            onClick={onClickModal}
+          />
+          <Button
+            content="Agregar a favoritos"
+            className={`${styles['card-content__button']}`}
+            onClick={onClickAddFavorite}
+          />
+          <Button
+            content="Eliminar favorito"
+            className={`${styles['card-content__button']}`}
+            onClick={onClickDeleteFavorite}
+          />
+        </section>
       </section>
     </section>
   );

@@ -6,16 +6,10 @@ const favoriteSlice = createSlice({
   reducers: {
     loadFavoriteRecipes(state, action) {
       state.recipes = action.payload.recipes;
-      console.log(state.recipes);
     },
     addFavoriteRecipe(state, action) {
       const newFavoriteRecipe = action.payload;
-      const recipeAlreadyAdded = state.recipes.find(
-        (recipe) => recipe.id === newFavoriteRecipe.id
-      );
-      if (!recipeAlreadyAdded) {
-        state.recipes.push({ newFavoriteRecipe });
-      }
+      state.recipes.push({ newFavoriteRecipe });
     },
   },
 });
