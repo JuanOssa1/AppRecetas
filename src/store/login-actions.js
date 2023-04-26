@@ -19,7 +19,7 @@ export const logUser = (userToValidate) => {
       for (const iterator in users) {
         if (users[iterator].email === userToValidate.userEmail) {
           if (users[iterator].password === userToValidate.password) {
-            userToReturn = users[iterator];
+            userToReturn = { ...users[iterator], id: iterator };
           }
         }
       }

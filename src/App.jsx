@@ -70,7 +70,9 @@ function App() {
   const dispatch = useDispatch();
   const logStatus = useSelector((state) => state.login);
   const favoriteRecipes = useSelector((state) => state.favorites);
-  console.log(favoriteRecipes.recipes);
+
+  //console.log(favoriteRecipes.recipes);
+  console.log(logStatus);
   useEffect(() => {
     dispatch(fetchFavoritesRecipes());
   }, [dispatch]);
