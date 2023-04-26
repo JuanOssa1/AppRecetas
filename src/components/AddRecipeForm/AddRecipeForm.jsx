@@ -132,11 +132,12 @@ function AddRecipe({ showModalHandler, sendRecipesHook }) {
           src={recipeImage}
           alt="Ingrese una imagen valida"
         />
-        {disableButton ? (
-          <Button disabled={true} content="Agregar" />
-        ) : (
-          <Button onClick={submitHandler} content="Agregar" />
-        )}
+
+        <Button
+          disabled={disableButton}
+          onClick={submitHandler}
+          content="Agregar"
+        />
       </div>
     </section>
   );

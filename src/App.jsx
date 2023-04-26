@@ -20,7 +20,6 @@ function App() {
   const [recipes, setRecipes] = useState([]);
   const [favorites, setFavorites] = useState({
     toggleButton: false,
-    valueToShow: '',
   });
 
   const getRecipes = useCallback((recipes) => {
@@ -55,27 +54,20 @@ function App() {
     getRecipesWithHook();
   }, []);
 
-  const showFavoritesHandler = () => {
-    setFavorites((prevState) => {
-      return { ...prevState, toggleButton: !prevState.toggleButton };
-    });
-  };
-  const infoFavoritesHandler = (item) => {
-    showModalHandler();
-    setFavorites((prevState) => {
-      return { ...prevState, valueToShow: item };
-    });
-  };
-
   const dispatch = useDispatch();
   const logStatus = useSelector((state) => state.login);
   const favoriteRecipes = useSelector((state) => state.favorites);
 
-  //console.log(favoriteRecipes.recipes);
-  console.log(logStatus);
-  useEffect(() => {
-    dispatch(fetchFavoritesRecipes());
-  }, [dispatch]);
+  const showFavoritesHandler = () => {
+    setFavorites((prevState) => {
+      return { ...prevState, toggleButton: !prevState.toggleButton };
+    });
+    dispatch(fetchFavoritesRecipes(logStatus.user.id));
+  };
+
+  const userFavoriteRecipes = recipes.filter((recipe) =>
+    favoriteRecipes.recipes.includes(recipe.id)
+  );
 
   return (
     <div className={`${styles['App']}`}>
@@ -100,7 +92,7 @@ function App() {
       {logStatus.isLogged && (
         <AppMainPage
           cardToRender={recipes}
-          favoriteCards={favoriteRecipes.recipes}
+          favoriteCards={userFavoriteRecipes}
           favoriteIsPressed={favorites.toggleButton}
         />
       )}
