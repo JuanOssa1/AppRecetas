@@ -12,6 +12,7 @@ import { useState } from 'react';
 import { useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchFavoritesRecipes } from './store/favorites-actions';
+import { fetchRecipes } from './store/recipes-actions';
 
 function App() {
   const URL_RECIPES =
@@ -41,14 +42,12 @@ function App() {
   };
 
   const getRecipesWithHook = (category = 'all', time = 'any') => {
-    sendRequest({
-      url: URL_RECIPES,
-      method: 'GET',
-      filter: {
+    dispatch(
+      fetchRecipes({
         byCategory: category,
         byTime: time,
-      },
-    });
+      })
+    );
   };
   useEffect(() => {
     getRecipesWithHook();
@@ -56,6 +55,7 @@ function App() {
 
   const dispatch = useDispatch();
   const logStatus = useSelector((state) => state.login);
+  const allRecipes = useSelector((state) => state.recipes);
   const favoriteRecipes = useSelector((state) => state.favorites);
 
   const showFavoritesHandler = () => {
@@ -64,10 +64,10 @@ function App() {
     });
     dispatch(fetchFavoritesRecipes(logStatus.user.id));
   };
-  const userFavoriteRecipes = recipes.filter((recipe) =>
+  const userFavoriteRecipes = allRecipes.recipes.filter((recipe) =>
     favoriteRecipes.recipes.includes(recipe.id)
   );
-
+  console.log(userFavoriteRecipes);
   return (
     <div className={`${styles['App']}`}>
       {isLoading && <LoadingScreen />}
@@ -90,7 +90,7 @@ function App() {
       {!logStatus.isLogged && <AppLogin />}
       {logStatus.isLogged && (
         <AppMainPage
-          cardToRender={recipes}
+          cardToRender={allRecipes.recipes}
           favoriteCards={userFavoriteRecipes}
           favoriteIsPressed={favorites.toggleButton}
         />

@@ -41,7 +41,6 @@ function AppMainPage({ cardToRender, favoriteIsPressed, favoriteCards }) {
       }
     }
     if (allowAdd) {
-      console.log(logStatus.user.id);
       dispatch(addFavoriteRecipe(recipeId, logStatus.user.id));
     }
   };
