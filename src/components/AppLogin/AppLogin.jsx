@@ -33,7 +33,6 @@ export default function AppLogin() {
   const dispatch = useDispatch();
   const handleClick = (event) => {
     event.preventDefault();
-    console.log({ userEmail, password });
     dispatch(logUser({ userEmail, password }));
   };
 

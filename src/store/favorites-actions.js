@@ -32,9 +32,9 @@ export const fetchFavoritesRecipes = (userId) => {
 export const addFavoriteRecipe = (recipeId, userId) => {
   return async (dispatch) => {
     const fetchFavoritesRecipes = await fetch(
-      URL_FAVORITE_RECIPES + userId + '/favoriteRecipes.json',
+      URL_FAVORITE_RECIPES + userId + '/favoriteRecipes/' + recipeId + '.json',
       {
-        method: 'POST',
+        method: 'PUT',
         body: JSON.stringify(recipeId),
       }
     );
@@ -43,6 +43,23 @@ export const addFavoriteRecipe = (recipeId, userId) => {
     }
     try {
       await fetchFavoritesRecipes();
+    } catch (error) {}
+  };
+};
+export const deleteFavoriteRecipe = (recipeId, userId) => {
+  return async (dispatch) => {
+    const deleteFavoriteRecipe = await fetch(
+      URL_FAVORITE_RECIPES + userId + '/favoriteRecipes/' + recipeId + '.json',
+      {
+        method: 'DELETE',
+      }
+    );
+    if (!deleteFavoriteRecipe.ok) {
+      throw new Error('error');
+    }
+    try {
+      await deleteFavoriteRecipe();
+      dispatch(favoritesActions.deleteFavoriteRecipe(recipeId));
     } catch (error) {}
   };
 };

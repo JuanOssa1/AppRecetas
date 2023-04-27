@@ -6,10 +6,8 @@ const loginSlice = createSlice({
   reducers: {
     setUser(state, action) {
       if (action.payload) {
-        console.log(action.payload);
         state.user = action.payload;
         state.isLogged = true;
-        console.log(action.payload.admin);
         if (action.payload.admin) {
           state.isAdmin = true;
         }

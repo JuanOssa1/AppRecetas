@@ -64,7 +64,6 @@ function App() {
     });
     dispatch(fetchFavoritesRecipes(logStatus.user.id));
   };
-
   const userFavoriteRecipes = recipes.filter((recipe) =>
     favoriteRecipes.recipes.includes(recipe.id)
   );

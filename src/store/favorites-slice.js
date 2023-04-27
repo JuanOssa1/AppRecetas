@@ -11,6 +11,13 @@ const favoriteSlice = createSlice({
       const newFavoriteRecipe = action.payload;
       state.recipes.push({ newFavoriteRecipe });
     },
+    deleteFavoriteRecipe(state, action) {
+      const recipe = state.recipes.find(
+        (recipe) => recipe.id === action.payload.id
+      );
+      const recipeIndex = state.recipes.indexOf(recipe);
+      state.recipes.slice(recipeIndex, recipeIndex);
+    },
   },
 });
 

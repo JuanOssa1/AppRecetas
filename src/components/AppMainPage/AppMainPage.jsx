@@ -5,7 +5,10 @@ import Card from '../UI/Card/Card';
 import CardAdditionalInfo from '../CardAdditionalInfo/CardAdditionalInfo';
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { addFavoriteRecipe } from '../../store/favorites-actions';
+import {
+  addFavoriteRecipe,
+  deleteFavoriteRecipe,
+} from '../../store/favorites-actions';
 
 function AppMainPage({ cardToRender, favoriteIsPressed, favoriteCards }) {
   const [infoModal, setInfoModal] = useState({
@@ -31,6 +34,7 @@ function AppMainPage({ cardToRender, favoriteIsPressed, favoriteCards }) {
   const addFavoriteHandler = (recipeId) => {
     let allowAdd = true;
     for (const recipe in favoriteRecipes.recipes) {
+      console.log(recipe);
       if (recipe.includes(recipeId)) {
         allowAdd = false;
       }
@@ -38,6 +42,14 @@ function AppMainPage({ cardToRender, favoriteIsPressed, favoriteCards }) {
     if (allowAdd) {
       console.log(logStatus.user.id);
       dispatch(addFavoriteRecipe(recipeId, logStatus.user.id));
+    }
+  };
+  const deleteFavoriteHandler = (recipeId) => {
+    for (const iterator of favoriteRecipes.recipes) {
+      if (iterator.includes(recipeId)) {
+        dispatch(deleteFavoriteRecipe(iterator, logStatus.user.id));
+        return iterator;
+      }
     }
   };
 
@@ -81,6 +93,7 @@ function AppMainPage({ cardToRender, favoriteIsPressed, favoriteCards }) {
                 time={item.time}
                 imageUrl={item.imageUrl}
                 onClickModal={() => infoModalHandler(item)}
+                onClickDeleteFavorite={() => deleteFavoriteHandler(item.id)}
               />
             ))}
           </section>
