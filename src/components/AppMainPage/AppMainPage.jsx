@@ -3,6 +3,7 @@ import styles from './AppMainPage.module.scss';
 import PhotoCarousel from '../UI/PhotoCarousel/PhotoCarousel';
 import Card from '../UI/Card/Card';
 import CardAdditionalInfo from '../CardAdditionalInfo/CardAdditionalInfo';
+import CardContainer from '../UI/CardContainer/CardContainer';
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
@@ -64,39 +65,22 @@ function AppMainPage({ cardToRender, favoriteIsPressed, favoriteCards }) {
       {!favoriteIsPressed && (
         <section className={`${styles['main-page']}`}>
           <PhotoCarousel />
-          <section className={`${styles['main-page__cards']}`}>
-            {cardToRender.map((item, index) => (
-              <Card
-                key={index}
-                category={item.category}
-                name={item.name}
-                steps={item.steps}
-                time={item.time}
-                imageUrl={item.imageUrl}
-                onClickModal={() => infoModalHandler(item)}
-                onClickAddFavorite={() => addFavoriteHandler(item.id)}
-              />
-            ))}
-          </section>
+          <CardContainer
+            cardToRender={cardToRender}
+            infoModalHandler={infoModalHandler}
+            addFavoriteHandler={addFavoriteHandler}
+          />
         </section>
       )}
       {favoriteIsPressed && (
         <section className={`${styles['main-page']}`}>
           <h1>Recetas Favoritas</h1>
-          <section className={`${styles['main-page__cards']}`}>
-            {favoriteCards.map((item, index) => (
-              <Card
-                key={index}
-                category={item.category}
-                name={item.name}
-                steps={item.steps}
-                time={item.time}
-                imageUrl={item.imageUrl}
-                onClickModal={() => infoModalHandler(item)}
-                onClickDeleteFavorite={() => deleteFavoriteHandler(item.id)}
-              />
-            ))}
-          </section>
+          <CardContainer
+            cardToRender={favoriteCards}
+            infoModalHandler={infoModalHandler}
+            deleteFavoriteHandler={deleteFavoriteHandler}
+            favoriteIsPressed={favoriteIsPressed}
+          />
         </section>
       )}
     </>

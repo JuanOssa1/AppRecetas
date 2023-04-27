@@ -25,14 +25,11 @@ const useFetch = (applyData) => {
         throw new Error('TRISTES NOTICIAS');
       }
       const data = await response.json();
-      //console.log(data);
       let dataArray = [];
-      //let dataArray = Object.values(data);
       for (const iterator in data) {
         const recipe = { ...data[iterator], id: iterator };
         dataArray.push(recipe);
       }
-      //console.log(dataArray);
       const theFilter = (filter) => {
         if (filter.byCategory !== 'all') {
           dataArray = dataArray.filter((recipe) => {

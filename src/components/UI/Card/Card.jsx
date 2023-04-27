@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './Card.module.scss';
 import Button from '../Button/Button';
+import { useSelector } from 'react-redux';
 
 function Card({
   category,
@@ -12,11 +13,13 @@ function Card({
   onClickModal,
   onClickAddFavorite,
   onClickDeleteFavorite,
+  favoriteIsPressed,
 }) {
   const handleImageError = (e) => {
     e.target.src =
       'https://forum.cs-cart.com/uploads/default/original/1X/2f0984456f8dd47c5beb0a68b72c3d6cf62ef2aa.jpeg';
   };
+  const logStatus = useSelector((state) => state.login);
   return (
     <section className={`${styles['card-container']}`}>
       <img
@@ -36,22 +39,27 @@ function Card({
         </h1>
         <p className={`${styles['card-content__steps']}`}>Pasos: {steps}</p>
         <section>
-          {' '}
           <Button
             content="Ver mas"
             className={`${styles['card-content__button']}`}
             onClick={onClickModal}
           />
-          <Button
-            content="Agregar a favoritos"
-            className={`${styles['card-content__button']}`}
-            onClick={onClickAddFavorite}
-          />
-          <Button
-            content="Eliminar favorito"
-            className={`${styles['card-content__button']}`}
-            onClick={onClickDeleteFavorite}
-          />
+          {!favoriteIsPressed && !logStatus.isAdmin && (
+            <Button
+              content="Agregar a favoritos"
+              className={`${styles['card-content__button']}`}
+              onClick={onClickAddFavorite}
+            />
+          )}
+          {logStatus.isAdmin && <Button content="Editar" />}
+          {logStatus.isAdmin && <Button content="Eliminar Receta" />}
+          {favoriteIsPressed && (
+            <Button
+              content="Eliminar favorito"
+              className={`${styles['card-content__button']}`}
+              onClick={onClickDeleteFavorite}
+            />
+          )}
         </section>
       </section>
     </section>

@@ -1,0 +1,13 @@
+.cards-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  justify-items: center;
+}
+
+@media (max-width: 600px) {
+  .cards-container {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+  }
+}
