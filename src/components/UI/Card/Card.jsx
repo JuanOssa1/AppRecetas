@@ -2,7 +2,9 @@ import React from 'react';
 import styles from './Card.module.scss';
 import Button from '../Button/Button';
 import { useSelector } from 'react-redux';
-
+/**Seri adecuado meter aqui los selectores y los dispatch o no es
+ * optimo porque crea muchos?
+ */
 function Card({
   category,
   imageUrl,
@@ -13,6 +15,7 @@ function Card({
   onClickModal,
   onClickAddFavorite,
   onClickDeleteFavorite,
+  onClickDeleteRecipe,
   favoriteIsPressed,
 }) {
   const handleImageError = (e) => {
@@ -52,7 +55,9 @@ function Card({
             />
           )}
           {logStatus.isAdmin && <Button content="Editar" />}
-          {logStatus.isAdmin && <Button content="Eliminar Receta" />}
+          {logStatus.isAdmin && (
+            <Button content="Eliminar Receta" onClick={onClickDeleteRecipe} />
+          )}
           {favoriteIsPressed && (
             <Button
               content="Eliminar favorito"

@@ -5,7 +5,6 @@ const recipeSlice = createSlice({
   initialState: { recipes: [] },
   reducers: {
     loadRecipes(state, action) {
-      console.log(action.payload);
       state.recipes = action.payload;
     },
     addRecipe(state, action) {

@@ -66,7 +66,6 @@ function AddRecipe({ showModalHandler, sendRecipesHook }) {
       steps: recipeSteps,
       time: recipeTime,
     };
-    console.log(recipe);
     sendRecipesHook(recipe);
     showModalHandler();
   };

@@ -4,43 +4,31 @@ import AppFooter from './components/AppFooter/AppFooter';
 import Modal from './components/UI/Modal/Modal';
 import AddRecipeForm from './components/AddRecipeForm/AddRecipeForm';
 import LoadingScreen from './components/UI/LoadingScreen/LoadingScreen';
-import useFetch from './hooks/use-fetch';
 import AppLogin from './components/AppLogin/AppLogin';
 import { useEffect } from 'react';
 import styles from './App.module.scss';
 import { useState } from 'react';
-import { useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchFavoritesRecipes } from './store/favorites-actions';
-import { fetchRecipes } from './store/recipes-actions';
+import { fetchRecipes, addRecipe } from './store/recipes-actions';
 
 function App() {
-  const URL_RECIPES =
-    'https://lasrecetasdejuan-d17ba-default-rtdb.firebaseio.com/recipes.json';
   const [modalAddRecipe, setModalSetRecipe] = useState(false);
-  const [recipes, setRecipes] = useState([]);
   const [favorites, setFavorites] = useState({
     toggleButton: false,
   });
-
-  const getRecipes = useCallback((recipes) => {
-    setRecipes(recipes);
-  }, []);
-
-  const { isLoading, error, sendRequest } = useFetch(getRecipes);
+  const dispatch = useDispatch();
+  const logStatus = useSelector((state) => state.login);
+  const allRecipes = useSelector((state) => state.recipes);
+  const favoriteRecipes = useSelector((state) => state.favorites);
 
   const showModalHandler = () => {
     setModalSetRecipe((prevState) => !prevState);
   };
   const sendRecipesHook = (recipe) => {
-    sendRequest({
-      url: URL_RECIPES,
-      method: 'POST',
-      body: recipe,
-    });
+    dispatch(addRecipe(recipe));
     getRecipesWithHook();
   };
-
   const getRecipesWithHook = (category = 'all', time = 'any') => {
     dispatch(
       fetchRecipes({
@@ -53,11 +41,6 @@ function App() {
     getRecipesWithHook();
   }, []);
 
-  const dispatch = useDispatch();
-  const logStatus = useSelector((state) => state.login);
-  const allRecipes = useSelector((state) => state.recipes);
-  const favoriteRecipes = useSelector((state) => state.favorites);
-
   const showFavoritesHandler = () => {
     setFavorites((prevState) => {
       return { ...prevState, toggleButton: !prevState.toggleButton };
@@ -67,10 +50,12 @@ function App() {
   const userFavoriteRecipes = allRecipes.recipes.filter((recipe) =>
     favoriteRecipes.recipes.includes(recipe.id)
   );
-  console.log(userFavoriteRecipes);
+  const editRecipeHandler = (recipe) => {
+    showModalHandler();
+  };
   return (
     <div className={`${styles['App']}`}>
-      {isLoading && <LoadingScreen />}
+      {false && <LoadingScreen />}
       {modalAddRecipe && (
         <Modal onClose={showModalHandler}>
           <AddRecipeForm
@@ -90,6 +75,7 @@ function App() {
       {!logStatus.isLogged && <AppLogin />}
       {logStatus.isLogged && (
         <AppMainPage
+          //editRecipeHandler={showModalHandler}
           cardToRender={allRecipes.recipes}
           favoriteCards={userFavoriteRecipes}
           favoriteIsPressed={favorites.toggleButton}

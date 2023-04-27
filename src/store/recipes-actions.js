@@ -21,7 +21,6 @@ export const fetchRecipes = (filter) => {
       }
 
       const filterRecipes = (filter) => {
-        console.log(filter);
         if (filter.byCategory !== 'all') {
           recipesArray = recipesArray.filter((recipe) => {
             return recipe.category === filter.byCategory;
@@ -36,12 +35,43 @@ export const fetchRecipes = (filter) => {
       if (filter) {
         filterRecipes(filter);
       }
-      console.log(recipesArray);
 
       dispatch(recipeActions.loadRecipes(recipesArray));
     } catch (error) {}
   };
 };
 export const addRecipe = (recipe) => {
-  return async (dispatch) => {};
+  return async (dispatch) => {
+    const fetchRecipe = async () => {
+      const request = await fetch(URL_ALL_RECIPES + '.json', {
+        method: 'POST',
+        body: JSON.stringify(recipe),
+      });
+      console.log(request);
+      if (!request.ok) {
+        throw new Error('Error');
+      }
+    };
+    try {
+      await fetchRecipe();
+      dispatch(recipeActions.addRecipe(recipe));
+    } catch (error) {}
+  };
+};
+export const deleteRecipe = (recipeId) => {
+  return async (dispatch) => {
+    const deleteRecipe = await fetch(
+      URL_ALL_RECIPES + '/' + recipeId + '.json',
+      {
+        method: 'DELETE',
+      }
+    );
+    if (!deleteRecipe.ok) {
+      throw new Error('error');
+    }
+    try {
+      await deleteRecipe();
+      dispatch(recipeActions.deleteRecipe(recipeId));
+    } catch (error) {}
+  };
 };

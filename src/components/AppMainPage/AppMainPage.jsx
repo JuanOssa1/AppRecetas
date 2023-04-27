@@ -1,7 +1,6 @@
 import React from 'react';
 import styles from './AppMainPage.module.scss';
 import PhotoCarousel from '../UI/PhotoCarousel/PhotoCarousel';
-import Card from '../UI/Card/Card';
 import CardAdditionalInfo from '../CardAdditionalInfo/CardAdditionalInfo';
 import CardContainer from '../UI/CardContainer/CardContainer';
 import { useState } from 'react';
@@ -10,6 +9,7 @@ import {
   addFavoriteRecipe,
   deleteFavoriteRecipe,
 } from '../../store/favorites-actions';
+import { deleteRecipe } from '../../store/recipes-actions';
 
 function AppMainPage({ cardToRender, favoriteIsPressed, favoriteCards }) {
   const [infoModal, setInfoModal] = useState({
@@ -26,7 +26,6 @@ function AppMainPage({ cardToRender, favoriteIsPressed, favoriteCards }) {
     });
   };
   const infoModalHandler = (item) => {
-    console.log('Test');
     showModalHandler();
     setInfoModal((prevState) => {
       return { ...prevState, valueToShow: item };
@@ -52,6 +51,9 @@ function AppMainPage({ cardToRender, favoriteIsPressed, favoriteCards }) {
       }
     }
   };
+  const deleteOneRecipe = (recipeId) => {
+    dispatch(deleteRecipe(recipeId));
+  };
 
   return (
     <>
@@ -68,6 +70,7 @@ function AppMainPage({ cardToRender, favoriteIsPressed, favoriteCards }) {
             cardToRender={cardToRender}
             infoModalHandler={infoModalHandler}
             addFavoriteHandler={addFavoriteHandler}
+            deleteRecipe={deleteOneRecipe}
           />
         </section>
       )}
