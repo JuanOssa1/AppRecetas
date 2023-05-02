@@ -16,6 +16,7 @@ function Card({
   onClickAddFavorite,
   onClickDeleteFavorite,
   onClickDeleteRecipe,
+  onClickEdit,
   favoriteIsPressed,
 }) {
   const handleImageError = (e) => {
@@ -54,7 +55,9 @@ function Card({
               onClick={onClickAddFavorite}
             />
           )}
-          {logStatus.isAdmin && <Button content="Editar" />}
+          {logStatus.isAdmin && (
+            <Button content="Editar" onClick={onClickEdit} />
+          )}
           {logStatus.isAdmin && (
             <Button content="Eliminar Receta" onClick={onClickDeleteRecipe} />
           )}

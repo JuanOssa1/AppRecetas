@@ -8,7 +8,10 @@ export const addUser = (user) => {
     const fetchUser = async () => {
       const request = await fetch(URL_USERS, {
         method: 'POST',
-        body: JSON.stringify(user),
+        body: JSON.stringify({
+          email: user.userEmail,
+          password: user.password,
+        }),
       });
       console.log(request);
       if (!request.ok) {

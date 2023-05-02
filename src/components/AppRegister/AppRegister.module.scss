@@ -1,0 +1,17 @@
+@import '../../constants/consts.scss';
+
+.main-content {
+  display: flex;
+  flex-direction: column;
+  background-color: $main-background-color;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 58px);
+  width: 100%;
+  gap: 15px;
+  &__title {
+    @extend .heading1 !optional;
+    height: 40px;
+    margin-bottom: 9px;
+  }
+}

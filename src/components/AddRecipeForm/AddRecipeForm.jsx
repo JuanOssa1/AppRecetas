@@ -6,7 +6,8 @@ import Button from '../UI/Button/Button';
 import styles from './AddRecipeForm.module.scss';
 import useInput from '../../hooks/use-input';
 
-function AddRecipe({ showModalHandler, sendRecipesHook }) {
+function AddRecipe({ showModalHandler, sendRecipesHook, setEditValues = '' }) {
+  //console.log(setEditValues);
   const checkMinimumCharacters = (value) => {
     return value.trim().length > 5;
   };
@@ -23,7 +24,7 @@ function AddRecipe({ showModalHandler, sendRecipesHook }) {
     reset: resetRecipeName,
     inputBlurHandler: nameInputBlurHandler,
     showError: showErrorName,
-  } = useInput(checkMinimumCharacters);
+  } = useInput(checkMinimumCharacters, setEditValues.name);
   const {
     value: recipeCategory,
     isValid: isValidCategory,
@@ -47,7 +48,7 @@ function AddRecipe({ showModalHandler, sendRecipesHook }) {
     reset: resetRecipeImage,
     inputBlurHandler: imageInputBlurHandler,
     showError: showErrorImage,
-  } = useInput(checkMinimumCharacters);
+  } = useInput(checkMinimumCharacters, setEditValues.imageUrl);
   const {
     value: recipeSteps,
     isValid: isValidSteps,
@@ -55,7 +56,7 @@ function AddRecipe({ showModalHandler, sendRecipesHook }) {
     reset: resetRecipeSteps,
     inputBlurHandler: stepsInputBlurHandler,
     showError: showErrorSteps,
-  } = useInput(checkMinimumCharacters);
+  } = useInput(checkMinimumCharacters, setEditValues.steps);
 
   const submitHandler = (event) => {
     event.preventDefault();
@@ -66,6 +67,7 @@ function AddRecipe({ showModalHandler, sendRecipesHook }) {
       steps: recipeSteps,
       time: recipeTime,
     };
+    //console.log(recipe);
     sendRecipesHook(recipe);
     showModalHandler();
   };
@@ -131,7 +133,6 @@ function AddRecipe({ showModalHandler, sendRecipesHook }) {
           src={recipeImage}
           alt="Ingrese una imagen valida"
         />
-
         <Button
           disabled={disableButton}
           onClick={submitHandler}

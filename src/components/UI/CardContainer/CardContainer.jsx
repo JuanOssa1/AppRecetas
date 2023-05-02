@@ -9,6 +9,7 @@ function CardContainer({
   deleteFavoriteHandler,
   favoriteIsPressed,
   deleteRecipe,
+  displayEdit,
 }) {
   return (
     <section className={`${styles['cards-container']}`}>
@@ -24,6 +25,7 @@ function CardContainer({
           onClickAddFavorite={() => addFavoriteHandler(item.id)}
           onClickDeleteFavorite={() => deleteFavoriteHandler(item.id)}
           onClickDeleteRecipe={() => deleteRecipe(item.id)}
+          onClickEdit={() => displayEdit(item)}
           favoriteIsPressed={favoriteIsPressed}
         />
       ))}

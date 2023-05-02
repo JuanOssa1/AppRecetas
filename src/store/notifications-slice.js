@@ -2,15 +2,10 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const notificationSlice = createSlice({
   name: 'notifications',
-  initialState: { notificationIsDeployed: false, notificationInfo: null },
+  initialState: { notificationIsDeployed: true, notificationInfo: '' },
   reducers: {
-    deployNotification(state, action) {
-      setTimeout(() => {
-        state.notificationIsDeployed = true;
-      }, action.payload.time);
-      state.notificationIsDeployed = false;
-    },
-    setNotificationInfo(state, action) {
+    setNotification(state, action) {
+      state.notificationIsDeployed = action.payload.isDeployed;
       state.notificationInfo = {
         status: action.payload.status,
         title: action.payload.title,

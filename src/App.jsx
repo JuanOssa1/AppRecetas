@@ -10,17 +10,27 @@ import styles from './App.module.scss';
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchFavoritesRecipes } from './store/favorites-actions';
-import { fetchRecipes, addRecipe } from './store/recipes-actions';
+import { fetchRecipes, addRecipe, editRecipe } from './store/recipes-actions';
+import NotificationToast from './components/UI/NotificationToast/NotificationToast';
+import AppRegister from './components/AppRegister/AppRegister';
 
 function App() {
   const [modalAddRecipe, setModalSetRecipe] = useState(false);
+  const [modalEditRecipe, setModalEditRecipe] = useState({
+    toggleButton: false,
+    valueToShow: '',
+  });
   const [favorites, setFavorites] = useState({
+    toggleButton: false,
+  });
+  const [register, setRegister] = useState({
     toggleButton: false,
   });
   const dispatch = useDispatch();
   const logStatus = useSelector((state) => state.login);
   const allRecipes = useSelector((state) => state.recipes);
   const favoriteRecipes = useSelector((state) => state.favorites);
+  const notification = useSelector((state) => state.notifications);
 
   const showModalHandler = () => {
     setModalSetRecipe((prevState) => !prevState);
@@ -47,20 +57,54 @@ function App() {
     });
     dispatch(fetchFavoritesRecipes(logStatus.user.id));
   };
+  const showRegisterHandler = () => {
+    setRegister((prevState) => {
+      return { ...prevState, toggleButton: !prevState.toggleButton };
+    });
+  };
   const userFavoriteRecipes = allRecipes.recipes.filter((recipe) =>
     favoriteRecipes.recipes.includes(recipe.id)
   );
+  const showModalEditHandler = () => {
+    setModalEditRecipe((prevState) => {
+      return { ...prevState, toggleButton: !prevState.toggleButton };
+    });
+  };
+  const infoModalEditHandler = (item) => {
+    showModalEditHandler();
+    setModalEditRecipe((prevState) => {
+      return { ...prevState, valueToShow: item };
+    });
+  };
+
   const editRecipeHandler = (recipe) => {
-    showModalHandler();
+    dispatch(editRecipe({ ...recipe, id: modalEditRecipe.valueToShow.id }));
+    getRecipesWithHook();
   };
   return (
     <div className={`${styles['App']}`}>
-      {false && <LoadingScreen />}
+      {notification.notificationIsDeployed && (
+        <NotificationToast
+          title={notification.notificationInfo.title}
+          status={notification.notificationInfo.status}
+          isDeployed={notification.notificationIsDeployed}
+        />
+      )}
       {modalAddRecipe && (
         <Modal onClose={showModalHandler}>
           <AddRecipeForm
             showModalHandler={showModalHandler}
             sendRecipesHook={sendRecipesHook}
+          />
+        </Modal>
+      )}
+
+      {modalEditRecipe.toggleButton && (
+        <Modal onClose={showModalEditHandler}>
+          <AddRecipeForm
+            setEditValues={modalEditRecipe.valueToShow}
+            sendRecipesHook={editRecipeHandler}
+            showModalHandler={showModalEditHandler}
           />
         </Modal>
       )}
@@ -72,10 +116,16 @@ function App() {
         isAdmin={logStatus.isAdmin}
       />
 
-      {!logStatus.isLogged && <AppLogin />}
+      {!logStatus.isLogged && !register.toggleButton && (
+        <AppLogin setRegister={showRegisterHandler} />
+      )}
+      {register.toggleButton && (
+        <AppRegister setRegister={showRegisterHandler} />
+      )}
+
       {logStatus.isLogged && (
         <AppMainPage
-          //editRecipeHandler={showModalHandler}
+          editRecipeHandler={infoModalEditHandler}
           cardToRender={allRecipes.recipes}
           favoriteCards={userFavoriteRecipes}
           favoriteIsPressed={favorites.toggleButton}

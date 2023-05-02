@@ -11,7 +11,12 @@ import {
 } from '../../store/favorites-actions';
 import { deleteRecipe } from '../../store/recipes-actions';
 
-function AppMainPage({ cardToRender, favoriteIsPressed, favoriteCards }) {
+function AppMainPage({
+  cardToRender,
+  favoriteIsPressed,
+  favoriteCards,
+  editRecipeHandler,
+}) {
   const [infoModal, setInfoModal] = useState({
     toggleButton: false,
     valueToShow: '',
@@ -25,12 +30,14 @@ function AppMainPage({ cardToRender, favoriteIsPressed, favoriteCards }) {
       return { ...prevState, toggleButton: !prevState.toggleButton };
     });
   };
+
   const infoModalHandler = (item) => {
     showModalHandler();
     setInfoModal((prevState) => {
       return { ...prevState, valueToShow: item };
     });
   };
+
   const addFavoriteHandler = (recipeId) => {
     let allowAdd = true;
     for (const recipe in favoriteRecipes.recipes) {
@@ -67,6 +74,7 @@ function AppMainPage({ cardToRender, favoriteIsPressed, favoriteCards }) {
         <section className={`${styles['main-page']}`}>
           <PhotoCarousel />
           <CardContainer
+            displayEdit={editRecipeHandler}
             cardToRender={cardToRender}
             infoModalHandler={infoModalHandler}
             addFavoriteHandler={addFavoriteHandler}

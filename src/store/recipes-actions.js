@@ -1,4 +1,6 @@
 import { recipeActions } from './recipes-slice';
+import { notificationActions } from './notifications-slice';
+import { deployNotification } from './notification-actions';
 const URL_ALL_RECIPES =
   'https://lasrecetasdejuan-d17ba-default-rtdb.firebaseio.com/recipes';
 
@@ -7,6 +9,13 @@ export const fetchRecipes = (filter) => {
     const fetchData = async () => {
       const fetchRecipes = await fetch(URL_ALL_RECIPES + '.json');
       if (!fetchRecipes.ok) {
+        dispatch(
+          deployNotification({
+            status: 'Error',
+            title: 'Error en el fetch',
+            time: 3000,
+          })
+        );
         throw new Error('error');
       }
       const recipesData = await fetchRecipes.json();
@@ -35,7 +44,13 @@ export const fetchRecipes = (filter) => {
       if (filter) {
         filterRecipes(filter);
       }
-
+      dispatch(
+        deployNotification({
+          status: 'Ok',
+          title: 'Recetas cargadas adecuadamente',
+          time: 2000,
+        })
+      );
       dispatch(recipeActions.loadRecipes(recipesArray));
     } catch (error) {}
   };
@@ -47,31 +62,94 @@ export const addRecipe = (recipe) => {
         method: 'POST',
         body: JSON.stringify(recipe),
       });
-      console.log(request);
       if (!request.ok) {
+        dispatch(
+          deployNotification({
+            status: 'Error',
+            title: 'Error en el fetch',
+            time: 3000,
+          })
+        );
         throw new Error('Error');
       }
     };
     try {
       await fetchRecipe();
       dispatch(recipeActions.addRecipe(recipe));
+      dispatch(
+        deployNotification({
+          status: 'Ok',
+          title: 'Receta agregada adecuadamente',
+          time: 2000,
+        })
+      );
     } catch (error) {}
   };
 };
 export const deleteRecipe = (recipeId) => {
   return async (dispatch) => {
-    const deleteRecipe = await fetch(
-      URL_ALL_RECIPES + '/' + recipeId + '.json',
-      {
-        method: 'DELETE',
+    const fetchRecipe = async () => {
+      const deleteRecipe = await fetch(
+        URL_ALL_RECIPES + '/' + recipeId + '.json',
+        {
+          method: 'DELETE',
+        }
+      );
+      if (!deleteRecipe.ok) {
+        dispatch(
+          deployNotification({
+            status: 'Error',
+            title: 'Error en el fetch',
+            time: 3000,
+          })
+        );
+        throw new Error('error');
       }
-    );
-    if (!deleteRecipe.ok) {
-      throw new Error('error');
-    }
+    };
     try {
-      await deleteRecipe();
+      await fetchRecipe();
       dispatch(recipeActions.deleteRecipe(recipeId));
+      dispatch(
+        deployNotification({
+          status: 'Ok',
+          title: 'Recetas eliminada adecuadamente',
+          time: 2000,
+        })
+      );
+    } catch (error) {}
+  };
+};
+export const editRecipe = (recipe) => {
+  return async (dispatch) => {
+    const fetchRecipes = async () => {
+      const editRecipeInternal = await fetch(
+        URL_ALL_RECIPES + '/' + recipe.id + '.json',
+        {
+          method: 'PUT',
+          body: JSON.stringify(recipe),
+        }
+      );
+      if (!editRecipeInternal.ok) {
+        dispatch(
+          deployNotification({
+            status: 'Error',
+            title: 'Error en el fetch',
+            time: 3000,
+          })
+        );
+        throw new Error('error');
+      }
+    };
+    try {
+      await fetchRecipes();
+      dispatch(recipeActions.editRecipe(recipe));
+      dispatch(
+        deployNotification({
+          status: 'Ok',
+          title: 'Recetas editada adecuadamente',
+          time: 2000,
+        })
+      );
     } catch (error) {}
   };
 };

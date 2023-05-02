@@ -1,16 +1,18 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import Input from '../UI/Input/Input';
 import Button from '../UI/Button/Button';
-import styles from './AppLogin.module.scss';
 import useInput from '../../hooks/use-input';
+import { addUser } from '../../store/register-actions';
 import { logUser } from '../../store/login-actions';
-import { useDispatch } from 'react-redux';
+import styles from './AppRegister.module.scss';
+import { useState } from 'react';
 
-export default function AppLogin({ setRegister }) {
+function AppRegister({ setRegister }) {
   const checkMinimumCharacters = (value) => {
     return value.trim().length > 5;
   };
-
+  //const dispatch = useDispatch();
   const {
     value: userEmail,
     isValid: isValidUserEmail,
@@ -31,12 +33,14 @@ export default function AppLogin({ setRegister }) {
   const dispatch = useDispatch();
   const handleClick = (event) => {
     event.preventDefault();
+    dispatch(addUser({ userEmail, password }));
     dispatch(logUser({ userEmail, password }));
+    setRegister();
   };
 
   return (
     <form className={`${styles['main-content']}`}>
-      <h1>Iniciar Sesion</h1>
+      <h1>Registro</h1>
       <Input
         label="Correo electrónico: "
         value={userEmail}
@@ -50,13 +54,15 @@ export default function AppLogin({ setRegister }) {
         onChange={changePasswordHandler}
         onBlur={passwordInputBlurHandler}
       />
-      <Button onClick={handleClick} content="Ingresar" />
+      <Button onClick={handleClick} content="Registrarme" />
       <p
         onClick={setRegister}
         className={`${styles['main-content__register']}`}
       >
-        ¿Aún no tenes cuenta? <a>Registrate</a>
+        Ya tengo cuenta, <a>Ir a login</a>
       </p>
     </form>
   );
 }
+
+export default AppRegister;
