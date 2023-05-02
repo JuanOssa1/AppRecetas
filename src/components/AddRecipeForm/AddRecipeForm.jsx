@@ -7,7 +7,6 @@ import styles from './AddRecipeForm.module.scss';
 import useInput from '../../hooks/use-input';
 
 function AddRecipe({ showModalHandler, sendRecipesHook, setEditValues = '' }) {
-  //console.log(setEditValues);
   const checkMinimumCharacters = (value) => {
     return value.trim().length > 5;
   };
@@ -67,7 +66,6 @@ function AddRecipe({ showModalHandler, sendRecipesHook, setEditValues = '' }) {
       steps: recipeSteps,
       time: recipeTime,
     };
-    //console.log(recipe);
     sendRecipesHook(recipe);
     showModalHandler();
   };

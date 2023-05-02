@@ -12,22 +12,15 @@ function AppRegister({ setRegister }) {
   const checkMinimumCharacters = (value) => {
     return value.trim().length > 5;
   };
-  //const dispatch = useDispatch();
   const {
     value: userEmail,
-    isValid: isValidUserEmail,
     changeValueHandler: changeUserNameHandler,
-    reset: resetUserName,
     inputBlurHandler: userNameInputBlurHandler,
-    showError: showErrorUserName,
   } = useInput(checkMinimumCharacters);
   const {
     value: password,
-    isValid: isValidPassword,
     changeValueHandler: changePasswordHandler,
-    reset: resetPassword,
     inputBlurHandler: passwordInputBlurHandler,
-    showError: showErrorName,
   } = useInput(checkMinimumCharacters);
 
   const dispatch = useDispatch();

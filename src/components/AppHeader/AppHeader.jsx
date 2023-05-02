@@ -19,13 +19,9 @@ function AppHeader({
   const {
     value: recipeCategory,
     changeValueHandler: changeRecipeCategoryHandler,
-    reset: resetRecipeCategory,
   } = useInput(checkValidSelector, 'all');
-  const {
-    value: recipeTime,
-    changeValueHandler: changeRecipeTimeHandler,
-    reset: resetRecipeTime,
-  } = useInput(checkValidSelector, 'any');
+  const { value: recipeTime, changeValueHandler: changeRecipeTimeHandler } =
+    useInput(checkValidSelector, 'any');
   useEffect(() => {
     getFilterValues(recipeCategory, recipeTime);
   }, [recipeCategory, recipeTime]);
@@ -38,7 +34,7 @@ function AppHeader({
         {isAdmin && (
           <Button onClick={addRecipeHandler} content="Agregar Receta" />
         )}
-        {!isAdmin && (
+        {!isAdmin && isLogged && (
           <Button
             onClick={showFavoriteRecipesHandler}
             content="Recetas Favoritas"

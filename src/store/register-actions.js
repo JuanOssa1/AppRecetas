@@ -13,7 +13,6 @@ export const addUser = (user) => {
           password: user.password,
         }),
       });
-      console.log(request);
       if (!request.ok) {
         throw new Error('Error');
       }

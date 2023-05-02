@@ -6,7 +6,6 @@ const portalElement = document.getElementById('overlays');
 
 function Toast({ title, status }) {
   const notification = useSelector((state) => state.notifications);
-  console.log(notification.notificationIsDeployed);
   return (
     <section
       className={`${
@@ -33,4 +32,3 @@ function NotificationToast({ title, status }) {
 }
 
 export default NotificationToast;
-//className={`${styles['notification']}`}

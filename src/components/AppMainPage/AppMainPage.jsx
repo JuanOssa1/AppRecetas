@@ -41,7 +41,6 @@ function AppMainPage({
   const addFavoriteHandler = (recipeId) => {
     let allowAdd = true;
     for (const recipe in favoriteRecipes.recipes) {
-      console.log(recipe);
       if (recipe.includes(recipeId)) {
         allowAdd = false;
       }

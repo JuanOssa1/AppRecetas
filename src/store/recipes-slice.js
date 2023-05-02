@@ -19,7 +19,6 @@ const recipeSlice = createSlice({
       state.recipes.slice(recipeIndex, recipeIndex);
     },
     editRecipe(state, action) {
-      console.log('recipe-slice');
       const updatedRecipes = state.recipes.map((recipe) => {
         if (recipe.id === action.payload.id) {
           recipe = action.payload;

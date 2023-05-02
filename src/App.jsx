@@ -3,7 +3,6 @@ import AppMainPage from './components/AppMainPage/AppMainPage';
 import AppFooter from './components/AppFooter/AppFooter';
 import Modal from './components/UI/Modal/Modal';
 import AddRecipeForm from './components/AddRecipeForm/AddRecipeForm';
-import LoadingScreen from './components/UI/LoadingScreen/LoadingScreen';
 import AppLogin from './components/AppLogin/AppLogin';
 import { useEffect } from 'react';
 import styles from './App.module.scss';
@@ -11,6 +10,7 @@ import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchFavoritesRecipes } from './store/favorites-actions';
 import { fetchRecipes, addRecipe, editRecipe } from './store/recipes-actions';
+import Transition from 'react-transition-group/Transition';
 import NotificationToast from './components/UI/NotificationToast/NotificationToast';
 import AppRegister from './components/AppRegister/AppRegister';
 
@@ -90,6 +90,7 @@ function App() {
           isDeployed={notification.notificationIsDeployed}
         />
       )}
+
       {modalAddRecipe && (
         <Modal onClose={showModalHandler}>
           <AddRecipeForm
