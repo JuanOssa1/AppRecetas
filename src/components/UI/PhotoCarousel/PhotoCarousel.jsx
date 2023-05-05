@@ -3,6 +3,7 @@ import { Carousel } from 'react-bootstrap';
 import styles from './PhotoCarousel.module.scss';
 
 function PhotoCarousel() {
+  // map para carousel
   return (
     <Carousel className={`${styles['main-carousel']}`}>
       <Carousel.Item>

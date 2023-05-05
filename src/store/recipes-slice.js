@@ -16,6 +16,7 @@ const recipeSlice = createSlice({
         (recipe) => recipe.id === action.payload
       );
       const recipeIndex = state.recipes.indexOf(recipe);
+      console.log(state.recipes.slice(recipeIndex, recipeIndex));
       state.recipes.slice(recipeIndex, recipeIndex);
     },
     editRecipe(state, action) {

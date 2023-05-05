@@ -1,16 +1,17 @@
 import React from 'react';
 import styles from './Card.module.scss';
 import Button from '../Button/Button';
-import { useSelector } from 'react-redux';
-/**Seri adecuado meter aqui los selectores y los dispatch o no es
- * optimo porque crea muchos?
- */
+import { AiFillStar } from 'react-icons/ai';
+import { useState } from 'react';
+import { useEffect } from 'react';
+
 function Card({
   category,
   imageUrl,
   name,
   steps,
   time,
+  markedFavorite,
   alt = 'Default alt',
   onClickModal,
   onClickAddFavorite,
@@ -18,14 +19,43 @@ function Card({
   onClickDeleteRecipe,
   onClickEdit,
   favoriteIsPressed,
+  logStatus,
 }) {
+  console.log({ markedFavorite });
+  const [isFavorite, setIsFavorite] = useState(false);
+
+  useEffect(() => {
+    setIsFavorite(markedFavorite);
+  }, [markedFavorite]);
+
+  console.log({ isFavorite });
+
+  const setFavoriteHandler = () => {
+    console.log({ isFavorite });
+    setIsFavorite((starPrevState) => !starPrevState);
+    console.log({ isFavorite });
+    if (isFavorite) {
+      onClickDeleteFavorite();
+    } else {
+      onClickAddFavorite();
+    }
+  };
+
   const handleImageError = (e) => {
     e.target.src =
       'https://forum.cs-cart.com/uploads/default/original/1X/2f0984456f8dd47c5beb0a68b72c3d6cf62ef2aa.jpeg';
   };
-  const logStatus = useSelector((state) => state.login);
   return (
     <section className={`${styles['card-container']}`}>
+      {!logStatus.isAdmin && (
+        <AiFillStar
+          className={`${
+            styles[!isFavorite ? 'card-container__favorite' : 'red']
+          }`}
+          onClick={setFavoriteHandler}
+        />
+      )}
+
       <img
         className={`${styles['card-container__image']}`}
         src={imageUrl}
@@ -42,16 +72,16 @@ function Card({
           Tiempo preparacion:{time}
         </h1>
         <p className={`${styles['card-content__steps']}`}>Pasos: {steps}</p>
-        <section>
+        <section className={`${styles['card-content__buttons']}`}>
           <Button
             content="Ver mas"
-            className={`${styles['card-content__button']}`}
+            className={`${styles['card-button']}`}
             onClick={onClickModal}
           />
           {!favoriteIsPressed && !logStatus.isAdmin && (
             <Button
               content="Agregar a favoritos"
-              className={`${styles['card-content__button']}`}
+              className={`${styles['card-button']}`}
               onClick={onClickAddFavorite}
             />
           )}
@@ -64,7 +94,7 @@ function Card({
           {favoriteIsPressed && (
             <Button
               content="Eliminar favorito"
-              className={`${styles['card-content__button']}`}
+              className={`${styles['card-button']}`}
               onClick={onClickDeleteFavorite}
             />
           )}

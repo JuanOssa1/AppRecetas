@@ -6,9 +6,10 @@ import useInput from '../../hooks/use-input';
 import { addUser } from '../../store/register-actions';
 import { logUser } from '../../store/login-actions';
 import styles from './AppRegister.module.scss';
-import { useState } from 'react';
 
 function AppRegister({ setRegister }) {
+  const dispatch = useDispatch();
+
   const checkMinimumCharacters = (value) => {
     return value.trim().length > 5;
   };
@@ -23,7 +24,6 @@ function AppRegister({ setRegister }) {
     inputBlurHandler: passwordInputBlurHandler,
   } = useInput(checkMinimumCharacters);
 
-  const dispatch = useDispatch();
   const handleClick = (event) => {
     event.preventDefault();
     dispatch(addUser({ userEmail, password }));

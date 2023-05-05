@@ -19,7 +19,7 @@ function Select({
         className={className}
         onChange={onChange}
         onBlur={onBlur}
-        //value={value}
+        value={value}
       >
         {options.map((element, index) => (
           <option key={index} value={element.toLowerCase().replace(/ /g, '')}>

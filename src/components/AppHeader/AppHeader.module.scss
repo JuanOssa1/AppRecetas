@@ -18,6 +18,9 @@
     margin: 0 0 0 40px;
     align-items: center;
   }
+  &__title:hover {
+    cursor: grab;
+  }
   &__form {
     margin: 0 40px 0 0;
   }

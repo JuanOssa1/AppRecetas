@@ -12,11 +12,11 @@ const favoriteSlice = createSlice({
       state.recipes.push({ newFavoriteRecipe });
     },
     deleteFavoriteRecipe(state, action) {
-      const recipe = state.recipes.find(
-        (recipe) => recipe.id === action.payload.id
-      );
-      const recipeIndex = state.recipes.indexOf(recipe);
-      state.recipes.slice(recipeIndex, recipeIndex);
+      const updatedRecipes = state.recipes.filter((recipe) => {
+        console.log(recipe.id !== action.payload);
+        return recipe !== action.payload;
+      });
+      state.recipes = updatedRecipes;
     },
   },
 });

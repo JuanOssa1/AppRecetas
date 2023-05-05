@@ -8,6 +8,7 @@ import { useEffect } from 'react';
 
 function AppHeader({
   showFavoriteRecipesHandler,
+  favoriteIsPressed,
   addRecipeHandler,
   getFilterValues,
   isLogged,
@@ -22,6 +23,12 @@ function AppHeader({
   } = useInput(checkValidSelector, 'all');
   const { value: recipeTime, changeValueHandler: changeRecipeTimeHandler } =
     useInput(checkValidSelector, 'any');
+
+  const homeHandler = () => {
+    if (favoriteIsPressed) {
+      showFavoriteRecipesHandler();
+    }
+  };
   useEffect(() => {
     getFilterValues(recipeCategory, recipeTime);
   }, [recipeCategory, recipeTime]);
@@ -29,7 +36,9 @@ function AppHeader({
   return (
     <>
       <div className={`${styles['main-nav']}`}>
-        <h1 className={`${styles['main-nav__title']}`}>Las recetas de Juan</h1>
+        <h1 className={`${styles['main-nav__title']}`} onClick={homeHandler}>
+          Las recetas de Juan
+        </h1>
 
         {isAdmin && (
           <Button onClick={addRecipeHandler} content="Agregar Receta" />

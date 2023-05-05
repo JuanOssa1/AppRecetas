@@ -9,13 +9,13 @@ import {
   addFavoriteRecipe,
   deleteFavoriteRecipe,
 } from '../../store/favorites-actions';
-import { deleteRecipe } from '../../store/recipes-actions';
 
 function AppMainPage({
   cardToRender,
   favoriteIsPressed,
   favoriteCards,
   editRecipeHandler,
+  deleteRecipeHandler,
 }) {
   const [infoModal, setInfoModal] = useState({
     toggleButton: false,
@@ -57,9 +57,6 @@ function AppMainPage({
       }
     }
   };
-  const deleteOneRecipe = (recipeId) => {
-    dispatch(deleteRecipe(recipeId));
-  };
 
   return (
     <>
@@ -69,7 +66,7 @@ function AppMainPage({
           recipe={infoModal.valueToShow}
         />
       )}
-      {!favoriteIsPressed && (
+      {!favoriteIsPressed ? (
         <section className={`${styles['main-page']}`}>
           <PhotoCarousel />
           <CardContainer
@@ -77,11 +74,10 @@ function AppMainPage({
             cardToRender={cardToRender}
             infoModalHandler={infoModalHandler}
             addFavoriteHandler={addFavoriteHandler}
-            deleteRecipe={deleteOneRecipe}
+            deleteRecipe={deleteRecipeHandler}
           />
         </section>
-      )}
-      {favoriteIsPressed && (
+      ) : (
         <section className={`${styles['main-page']}`}>
           <h1>Recetas Favoritas</h1>
           <CardContainer

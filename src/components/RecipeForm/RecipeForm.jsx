@@ -3,7 +3,7 @@ import * as constants from '../../constants/constants';
 import Input from '../UI/Input/Input';
 import Select from '../UI/Select/Select';
 import Button from '../UI/Button/Button';
-import styles from './AddRecipeForm.module.scss';
+import styles from './RecipeForm.module.scss';
 import useInput from '../../hooks/use-input';
 
 function AddRecipe({ showModalHandler, sendRecipesHook, setEditValues = '' }) {
@@ -20,7 +20,6 @@ function AddRecipe({ showModalHandler, sendRecipesHook, setEditValues = '' }) {
     value: recipeName,
     isValid: isValidName,
     changeValueHandler: changeRecipeNameHandler,
-    reset: resetRecipeName,
     inputBlurHandler: nameInputBlurHandler,
     showError: showErrorName,
   } = useInput(checkMinimumCharacters, setEditValues.name);
@@ -28,23 +27,22 @@ function AddRecipe({ showModalHandler, sendRecipesHook, setEditValues = '' }) {
     value: recipeCategory,
     isValid: isValidCategory,
     changeValueHandler: changeRecipeCategoryHandler,
-    reset: resetRecipeCategory,
     inputBlurHandler: categoryInputBlurHandler,
     showError: showErrorCategory,
-  } = useInput(checkValidCategorySelector, 'all');
+  } = useInput(checkValidCategorySelector, setEditValues.category);
+  console.log(setEditValues.category);
   const {
     value: recipeTime,
     isValid: isValidTime,
     changeValueHandler: changeRecipeTimeHandler,
-    reset: resetRecipeTime,
     inputBlurHandler: timeInputBlurHandler,
     showError: showErrorTime,
-  } = useInput(checkValidTimeSelector, 'any');
+  } = useInput(checkValidTimeSelector, setEditValues.time);
+  console.log(setEditValues.time);
   const {
     value: recipeImage,
     isValid: isValidImage,
     changeValueHandler: changeRecipeImageHandler,
-    reset: resetRecipeImage,
     inputBlurHandler: imageInputBlurHandler,
     showError: showErrorImage,
   } = useInput(checkMinimumCharacters, setEditValues.imageUrl);
@@ -52,7 +50,6 @@ function AddRecipe({ showModalHandler, sendRecipesHook, setEditValues = '' }) {
     value: recipeSteps,
     isValid: isValidSteps,
     changeValueHandler: changeRecipeStepsHandler,
-    reset: resetRecipeSteps,
     inputBlurHandler: stepsInputBlurHandler,
     showError: showErrorSteps,
   } = useInput(checkMinimumCharacters, setEditValues.steps);
@@ -131,11 +128,14 @@ function AddRecipe({ showModalHandler, sendRecipesHook, setEditValues = '' }) {
           src={recipeImage}
           alt="Ingrese una imagen valida"
         />
-        <Button
-          disabled={disableButton}
-          onClick={submitHandler}
-          content="Agregar"
-        />
+        <section>
+          <Button onClick={showModalHandler} content="Cancelar" />
+          <Button
+            disabled={disableButton}
+            onClick={submitHandler}
+            content="Agregar"
+          />
+        </section>
       </div>
     </section>
   );

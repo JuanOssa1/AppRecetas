@@ -1,5 +1,5 @@
 import React from 'react';
-import * as ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom';
 import styles from './NotificationToast.module.scss';
 import { useSelector } from 'react-redux';
 const portalElement = document.getElementById('overlays');

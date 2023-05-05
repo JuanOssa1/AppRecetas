@@ -1,4 +1,3 @@
-import React from 'react';
 import { useCallback, useState } from 'react';
 //Porque todo lo tengo que mandar por un callback y no o puedo mandar como por un parametro en el ()
 const useFetch = (applyData) => {

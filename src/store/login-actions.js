@@ -1,4 +1,5 @@
 import { loginActions } from './login-slice';
+import { deployNotification } from './notification-actions';
 
 const URL_USERS =
   'https://lasrecetasdejuan-d17ba-default-rtdb.firebaseio.com/users.json';
@@ -8,6 +9,13 @@ export const logUser = (userToValidate) => {
     const fetchData = async () => {
       const fetchUsers = await fetch(URL_USERS);
       if (!fetchUsers.ok) {
+        dispatch(
+          deployNotification({
+            status: 'Error',
+            title: 'Error en el fetch',
+            time: 3000,
+          })
+        );
         throw new Error('error');
       }
       const usersData = await fetchUsers.json();
@@ -22,6 +30,15 @@ export const logUser = (userToValidate) => {
             userToReturn = { ...users[iterator], id: iterator };
           }
         }
+      }
+      if (!userToReturn) {
+        dispatch(
+          deployNotification({
+            status: 'Error',
+            title: 'Contraseña o usuario incorrectos',
+            time: 3000,
+          })
+        );
       }
       dispatch(loginActions.setUser(userToReturn));
     } catch (error) {}

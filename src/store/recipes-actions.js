@@ -1,11 +1,12 @@
 import { recipeActions } from './recipes-slice';
-import { notificationActions } from './notifications-slice';
 import { deployNotification } from './notification-actions';
+import { notificationActions } from './notifications-slice';
 const URL_ALL_RECIPES =
   'https://lasrecetasdejuan-d17ba-default-rtdb.firebaseio.com/recipes';
 
 export const fetchRecipes = (filter) => {
   return async (dispatch) => {
+    dispatch(notificationActions.setLoading(true));
     const fetchData = async () => {
       const fetchRecipes = await fetch(URL_ALL_RECIPES + '.json');
       if (!fetchRecipes.ok) {
@@ -16,6 +17,7 @@ export const fetchRecipes = (filter) => {
             time: 3000,
           })
         );
+        dispatch(notificationActions.setLoading(false));
         throw new Error('error');
       }
       const recipesData = await fetchRecipes.json();
@@ -51,6 +53,7 @@ export const fetchRecipes = (filter) => {
           time: 2000,
         })
       );
+      dispatch(notificationActions.setLoading(false));
       dispatch(recipeActions.loadRecipes(recipesArray));
     } catch (error) {}
   };
