@@ -15,7 +15,6 @@ function AppFooter() {
       </div>
     </div>
   );
-  //Como hago para quitar un elemento si se llega a cierto tamaño
 }
 
 export default AppFooter;

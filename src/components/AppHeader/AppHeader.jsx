@@ -6,20 +6,29 @@ import useInput from '../../hooks/use-input';
 import * as constants from '../../constants/constants';
 import { useEffect } from 'react';
 
-function AppHeader({ addRecipeHandler, getFilterValues }) {
+function AppHeader({
+  showFavoriteRecipesHandler,
+  favoriteIsPressed,
+  addRecipeHandler,
+  getFilterValues,
+  isLogged,
+  isAdmin,
+}) {
   const checkValidSelector = (value) => {
     return value !== '';
   };
   const {
     value: recipeCategory,
     changeValueHandler: changeRecipeCategoryHandler,
-    reset: resetRecipeCategory,
   } = useInput(checkValidSelector, 'all');
-  const {
-    value: recipeTime,
-    changeValueHandler: changeRecipeTimeHandler,
-    reset: resetRecipeTime,
-  } = useInput(checkValidSelector, 'any');
+  const { value: recipeTime, changeValueHandler: changeRecipeTimeHandler } =
+    useInput(checkValidSelector, 'any');
+
+  const homeHandler = () => {
+    if (favoriteIsPressed) {
+      showFavoriteRecipesHandler();
+    }
+  };
   useEffect(() => {
     getFilterValues(recipeCategory, recipeTime);
   }, [recipeCategory, recipeTime]);
@@ -27,24 +36,37 @@ function AppHeader({ addRecipeHandler, getFilterValues }) {
   return (
     <>
       <div className={`${styles['main-nav']}`}>
-        <h1 className={`${styles['main-nav__title']}`}>Las recetas de Juan</h1>
-        <Button onClick={addRecipeHandler} content="Agregar Receta" />
-        <form className={`${styles['main-nav__form']}`}>
-          <Select
-            label="Choose category"
-            id="categories"
-            value={recipeCategory}
-            options={Object.values(constants.categories)}
-            onChange={changeRecipeCategoryHandler}
+        <h1 className={`${styles['main-nav__title']}`} onClick={homeHandler}>
+          Las recetas de Juan
+        </h1>
+
+        {isAdmin && (
+          <Button onClick={addRecipeHandler} content="Agregar Receta" />
+        )}
+        {!isAdmin && isLogged && (
+          <Button
+            onClick={showFavoriteRecipesHandler}
+            content="Recetas Favoritas"
           />
-          <Select
-            label="Choose time"
-            id="CookingTime"
-            value={recipeTime}
-            options={Object.values(constants.cookingTime)}
-            onChange={changeRecipeTimeHandler}
-          />
-        </form>
+        )}
+        {isLogged && (
+          <form className={`${styles['main-nav__form']}`}>
+            <Select
+              label="Choose category"
+              id="categories"
+              value={recipeCategory}
+              options={Object.values(constants.categories)}
+              onChange={changeRecipeCategoryHandler}
+            />
+            <Select
+              label="Choose time"
+              id="CookingTime"
+              value={recipeTime}
+              options={Object.values(constants.cookingTime)}
+              onChange={changeRecipeTimeHandler}
+            />
+          </form>
+        )}
       </div>
     </>
   );

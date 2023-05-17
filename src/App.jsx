@@ -2,81 +2,173 @@ import AppHeader from './components/AppHeader/AppHeader';
 import AppMainPage from './components/AppMainPage/AppMainPage';
 import AppFooter from './components/AppFooter/AppFooter';
 import Modal from './components/UI/Modal/Modal';
-import AddRecipeForm from './components/AddRecipeForm/AddRecipeForm';
+import RecipeForm from './components/RecipeForm/RecipeForm';
+import AppLogin from './components/AppLogin/AppLogin';
+import NotificationToast from './components/UI/NotificationToast/NotificationToast';
+import AppRegister from './components/AppRegister/AppRegister';
 import LoadingScreen from './components/UI/LoadingScreen/LoadingScreen';
-import useFetch from './hooks/use-fetch';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchFavoritesRecipes } from './store/favorites-actions';
+import {
+  fetchRecipes,
+  addRecipe,
+  editRecipe,
+  deleteRecipe,
+} from './store/recipes-actions';
+
 import styles from './App.module.scss';
-import { useState } from 'react';
-import { useCallback } from 'react';
 
 function App() {
-  const URL_RECIPES =
-    'https://lasrecetasdejuan-d17ba-default-rtdb.firebaseio.com/recipes.json';
   const [modalAddRecipe, setModalSetRecipe] = useState(false);
-  const [recipes, setRecipes] = useState([]);
+  const [modalEditRecipe, setModalEditRecipe] = useState({
+    toggleButton: false,
+    valueToShow: '',
+  });
 
-  const getRecipes = useCallback((recipes) => {
-    //console.log(recipes);
-    setRecipes(recipes);
-  }, []);
+  const [favorites, setFavorites] = useState({
+    toggleButton: false,
+  });
 
-  /* const getRecipes = (recipes) => {
-    console.log(recipes);
-    setRecipes(recipes);
-  }; */
-  //Cada que cambia algo aqui re renderiza como un useffect no?
-  const { isLoading, error, sendRequest } = useFetch(getRecipes);
+  const [register, setRegister] = useState({
+    toggleButton: false,
+  });
+
+  const dispatch = useDispatch();
+  const logStatus = useSelector((state) => state.login);
+
+  const allRecipes = useSelector((state) => state.recipes);
+  const favoriteRecipes = useSelector((state) => state.favorites);
+  const notification = useSelector((state) => state.notifications);
+
+  const userFavoriteRecipes = allRecipes.recipes
+    .filter((recipe) => favoriteRecipes.recipes.includes(recipe.id))
+    .map((recipe) => ({ ...recipe, isFavorite: true }));
+  /**
+   * Chekea que recetas deberia marcar en la pagina principal como favoritas
+   */
+  const recipesWithFavStatus = allRecipes.recipes.map((recipe) => {
+    if (favoriteRecipes.recipes.includes(recipe.id)) {
+      return { ...recipe, isFavorite: true };
+    } else {
+      return { ...recipe, isFavorite: false };
+    }
+  });
+  //console.log(allRecipes);
+  console.log(recipesWithFavStatus);
 
   const showModalHandler = () => {
-    setModalSetRecipe((prevState) => !prevState);
+    setModalSetRecipe((modalPrevState) => !modalPrevState);
   };
+
   const sendRecipesHook = (recipe) => {
-    sendRequest({
-      url: URL_RECIPES,
-      method: 'POST',
-      body: recipe,
-    });
+    dispatch(addRecipe(recipe));
     getRecipesWithHook();
   };
-  /**Por alguna razon misteriosa a veces manda al "use-fetch" el filtro vacio
-   * cuando no deberia puesto que siempre deberia tener valores ya que en principio se
-   * los estoy dando por default
-   *
-   * Descubrimiento 2: Parece que esto esta sucediendo puesto que el componente custom
-   * no esta tomando valores por defecto la primera vez que renderiza, esto trae
-   * como consecuencia que el estado incial del select sea "" cuando en realidad deberia ser
-   * any o all
-   */
-  const getRecipesWithHook = (category = 'all', time = 'any') => {
-    sendRequest({
-      url: URL_RECIPES,
-      method: 'GET',
-      filter: {
-        byCategory: category,
-        byTime: time,
-      },
+
+  const getRecipesWithHook = (byCategory = 'all', byTime = 'any') => {
+    dispatch(
+      fetchRecipes({
+        byCategory,
+        byTime,
+      })
+    );
+  };
+
+  const showFavoritesHandler = () => {
+    setFavorites((prevState) => {
+      return { ...prevState, toggleButton: !prevState.toggleButton };
     });
+    dispatch(fetchFavoritesRecipes(logStatus.user.id));
+  };
+  const showRegisterHandler = () => {
+    setRegister((prevState) => {
+      return { ...prevState, toggleButton: !prevState.toggleButton };
+    });
+  };
+  const showModalEditHandler = () => {
+    setModalEditRecipe((prevState) => {
+      return { ...prevState, toggleButton: !prevState.toggleButton };
+    });
+  };
+  const infoModalEditHandler = (item) => {
+    showModalEditHandler();
+    setModalEditRecipe((prevState) => {
+      return { ...prevState, valueToShow: item };
+    });
+  };
+
+  const editRecipeHandler = (recipe) => {
+    dispatch(editRecipe({ ...recipe, id: modalEditRecipe.valueToShow.id }));
+    getRecipesWithHook();
+  };
+
+  const deleteOneRecipeHandler = (recipeId) => {
+    dispatch(deleteRecipe(recipeId));
+    getRecipesWithHook();
   };
   useEffect(() => {
     getRecipesWithHook();
   }, []);
+  /*   useEffect(() => {
+    dispatch(fetchFavoritesRecipes(logStatus.user.id));
+    //addFavoriteStatusToRecipes();
+  }, [logStatus.isLogged]); */
   return (
     <div className={`${styles['App']}`}>
-      {isLoading && <LoadingScreen />}
+      {notification.notificationIsDeployed && (
+        <NotificationToast
+          title={notification.notificationInfo.title}
+          status={notification.notificationInfo.status}
+          isDeployed={notification.notificationIsDeployed}
+        />
+      )}
+      {notification.isLoading && <LoadingScreen />}
+
       {modalAddRecipe && (
         <Modal onClose={showModalHandler}>
-          <AddRecipeForm
+          <RecipeForm
             showModalHandler={showModalHandler}
             sendRecipesHook={sendRecipesHook}
           />
         </Modal>
       )}
+
+      {modalEditRecipe.toggleButton && (
+        <Modal onClose={showModalEditHandler}>
+          <RecipeForm
+            setEditValues={modalEditRecipe.valueToShow}
+            sendRecipesHook={editRecipeHandler}
+            showModalHandler={showModalEditHandler}
+          />
+        </Modal>
+      )}
       <AppHeader
+        showFavoriteRecipesHandler={showFavoritesHandler}
         addRecipeHandler={showModalHandler}
         getFilterValues={getRecipesWithHook}
+        favoriteIsPressed={favorites.toggleButton}
+        isLogged={logStatus.isLogged}
+        isAdmin={logStatus.isAdmin}
       />
-      <AppMainPage cardToRender={recipes} />
+
+      {!logStatus.isLogged && !register.toggleButton && (
+        <AppLogin setRegister={showRegisterHandler} />
+      )}
+      {register.toggleButton && (
+        <AppRegister setRegister={showRegisterHandler} />
+      )}
+
+      {logStatus.isLogged && (
+        <AppMainPage
+          editRecipeHandler={infoModalEditHandler}
+          deleteRecipeHandler={deleteOneRecipeHandler}
+          cardToRender={logStatus.isLogged ? recipesWithFavStatus : []}
+          favoriteCards={userFavoriteRecipes}
+          favoriteIsPressed={favorites.toggleButton}
+        />
+      )}
+
       <AppFooter />
     </div>
   );
